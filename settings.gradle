@@ -1,2 +1,5 @@
 rootProject.name = 'ShopCloud'
 
+includeBuild 'eurika-Server'
+
+

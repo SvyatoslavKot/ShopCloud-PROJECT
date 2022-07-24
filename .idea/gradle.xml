@@ -3,12 +3,44 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/eurika-Server" name="eurika-Server">
+                <projects>
+                  <project path="$PROJECT_DIR$/eurika-Server" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/eurika-Server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/eurika-Client" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/eurika-Client" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/eurika-Server" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/eurika-Server" />
           </set>
         </option>
       </GradleProjectSettings>
