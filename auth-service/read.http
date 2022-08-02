@@ -1,0 +1,22 @@
+GET http://localhost:8082/api/v1/developers
+
+###
+
+
+
+POST http://localhost:8082/api/v1/auth/login
+Authorization: admin@mail admin
+###
+
+
+POST http://localhost:8082/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "mail": "admin@mail",
+    "password": "admin"
+}
+
+
+###
+

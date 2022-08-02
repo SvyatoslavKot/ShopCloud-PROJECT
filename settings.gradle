@@ -1,5 +1,11 @@
 rootProject.name = 'ShopCloud'
 
 includeBuild 'eurika-Server'
+includeBuild 'eurika-Client'
+includeBuild 'eureka-Client-2'
+includeBuild 'auth-service'
+
+
+includeBuild 'api-GeteWay'
 
 

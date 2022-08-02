@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>main</title>
+</head>
+<body>
+<nav th:insert="include/navBar :: navbar"></nav>
+<h2> This is MAIN PAge</h2>
+
+<div sec:authorize="isAuthenticated">
+    <div > User, <span sec:authenticaton="principal.username">Name</span></div>
+</div>
+</body>
+</html>

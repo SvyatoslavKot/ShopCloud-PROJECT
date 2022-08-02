@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -11,6 +12,26 @@
                   <project path="$PROJECT_DIR$/eurika-Server" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/eurika-Client" name="eurika-Client">
+                <projects>
+                  <project path="$PROJECT_DIR$/eurika-Client" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/eureka-Client-2" name="eureka-Client-2">
+                <projects>
+                  <project path="$PROJECT_DIR$/eureka-Client-2" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/auth-service" name="auth-service">
+                <projects>
+                  <project path="$PROJECT_DIR$/auth-service" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/api-GeteWay" name="api-GeteWay">
+                <projects>
+                  <project path="$PROJECT_DIR$/api-GeteWay" />
+                </projects>
+              </build>
             </builds>
           </compositeBuild>
         </compositeConfiguration>
@@ -20,7 +41,41 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/api-GeteWay" />
+            <option value="$PROJECT_DIR$/auth-service" />
+            <option value="$PROJECT_DIR$/eureka-Client-2" />
+            <option value="$PROJECT_DIR$/eurika-Client" />
             <option value="$PROJECT_DIR$/eurika-Server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/api-GeteWay/api-GateWay" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/api-GeteWay/api-GateWay" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/auth-service" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/auth-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/eureka-Client-2" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/eureka-Client-2" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -41,6 +96,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/eurika-Server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/shop_module" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/shop_module" />
           </set>
         </option>
       </GradleProjectSettings>
