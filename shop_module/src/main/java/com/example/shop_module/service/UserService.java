@@ -9,6 +9,8 @@ public interface UserService {
 
     boolean save(UserDTO userDTO);
 
+    void save(User user);
+
     List<UserDTO> findAllUserDto();
 
     User finByMail(String name);

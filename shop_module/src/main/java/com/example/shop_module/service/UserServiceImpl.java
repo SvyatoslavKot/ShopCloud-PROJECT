@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public User finByMail(String mail) {
         return userRepository.findByMail(mail).orElseThrow(()-> new RuntimeException("User not found"));
     }

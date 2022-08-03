@@ -15,11 +15,6 @@ create TABLE users (
                        bucket_id BIGINT,
                        foreign key (bucket_id) references buckets (id)
 );
-INSERT INTO users ( id,name, e_mail, password, archive, role)
-VALUES (1,'name', 'Mail@mail', '0000', false, 'ADMIN');
-
-
-
 
 DROP TABLE  IF EXISTS products;
 create TABLE products(

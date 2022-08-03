@@ -6,20 +6,24 @@
 </head>
 <body>
 <nav th:insert="include/navBar :: navbar"></nav>
+<main class="container">
+    <table class="table table-dark table-hover mt-5 col-10">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="product : ${products}" >
+            <td th:text="${product.title}">title</td>
+            <td th:text="${product.price}" >price$</td>
+            <td><a th:href="@{/product/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
+        </tr>
+    </table>
+</main>
 
-<table class="table table-dark table-hover mt-5 col-10">
-    <thead>
-    <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Price</th>
-    </tr>
-    </thead>
-    <tbody >
-    <tr th:each="product : ${products}" >
-        <td th:text="${product.title}">title</td>
-        <td th:text="${product.price}" >price$</td>
-    </tr>
-</table>
 
 </body>
 </html>

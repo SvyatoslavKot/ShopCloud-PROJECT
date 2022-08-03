@@ -4,12 +4,10 @@ import com.example.shop_module.domain.User;
 import com.example.shop_module.dto.UserDTO;
 import com.example.shop_module.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -29,6 +27,13 @@ public class UserController {
     public String userList (Model model){
         model.addAttribute("users", userService.findAllUserDto());
         return "userList";
+    }
+    @PreAuthorize("isAuthenticated() and #mail == authentication.principal.username")
+    @GetMapping("/{mail}/roles")
+    @ResponseBody
+    public String getRoles(@PathVariable("mail") String mail) {
+        User user = userService.finByMail(mail);
+        return user.getRole().name();
     }
 
     @GetMapping("/new")
