@@ -1,0 +1,28 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://example.com/shop_module/ws/greeting.xsd"
+            targetNamespace="http://example.com/shop_module/ws/greeting.xsd"
+            elementFormDefault="qualified">
+
+    <xsd:element name="getGreetingRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="name" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getGreetingResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="greeting" type="tns:greeting"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+        <xsd:complexType name="greeting">
+            <xsd:sequence>
+                <xsd:element name="text" type="xsd:string"/>
+                <xsd:element name="date" type="xsd:date"/>
+            </xsd:sequence>
+        </xsd:complexType>
+</xsd:schema>

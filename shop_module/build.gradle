@@ -10,6 +10,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+    jaxb
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -19,15 +20,26 @@ repositories {
     mavenCentral()
 }
 
+project.ext {
+    jaxbTargetDir = file("src/main/java/com/example/shop_module/xsd")
+}
+
 
 ext {
     set('springCloudVersion', "2021.0.3")
 }
 
+
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation group: 'wsdl4j', name: 'wsdl4j'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
    // implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
@@ -40,6 +52,11 @@ dependencies {
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
     annotationProcessor 'org.projectlombok:lombok'
+    jaxb (
+            'com.sun.xml.bind:jaxb-xjc:2.3.1',
+            'com.sun.xml.bind:jaxb-impl:2.3.1',
+            'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+    )
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -57,6 +74,27 @@ flyway{
     password = '0000'
     schemas = ['public']
 }
+
+task jaxb {
+    System.setProperty('javax.xml.accessExternalSchema', 'all')
+    def jaxbTargetDir = file("src/main/java/com/example/shop_module/xsd")
+    doLast {
+        jaxbTargetDir.mkdirs()
+        ant.taskdef(
+                name: 'xjc',
+                classname: 'com.sun.tools.xjc.XJCTask',
+                classpath: configurations.jaxb.asPath
+        )
+        ant.jaxbTargetDir = jaxbTargetDir
+        ant.xjc(
+                destdir: '${jaxbTargetDir}/greeting',
+                package: 'com.example.shop_module.xsd_schema',
+                schema: 'src/main/resources/ws/greeting.xsd'
+        )
+    }
+}
+
+compileJava.dependsOn jaxb
 
 tasks.named('test') {
     useJUnitPlatform()
