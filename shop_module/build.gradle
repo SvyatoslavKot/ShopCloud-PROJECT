@@ -36,6 +36,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation group: 'org.webjars', name: 'sockjs-client', version: '1.5.1'
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+    implementation group: 'org.webjars', name: 'jquery',version: '3.4.1'
+    implementation group: 'org.webjars', name: 'webjars-locator', version: '0.40'
+
+
+
+
+
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation group: 'wsdl4j', name: 'wsdl4j'
 
@@ -55,7 +65,7 @@ dependencies {
     jaxb (
             'com.sun.xml.bind:jaxb-xjc:2.3.1',
             'com.sun.xml.bind:jaxb-impl:2.3.1',
-            'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+           'org.glassfish.jaxb:jaxb-runtime:2.3.3'
     )
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -81,20 +91,25 @@ task jaxb {
     doLast {
         jaxbTargetDir.mkdirs()
         ant.taskdef(
-                name: 'xjc',
+               name: 'xjc',
                 classname: 'com.sun.tools.xjc.XJCTask',
-                classpath: configurations.jaxb.asPath
+               classpath: configurations.jaxb.asPath
         )
         ant.jaxbTargetDir = jaxbTargetDir
         ant.xjc(
-                destdir: '${jaxbTargetDir}/greeting',
-                package: 'com.example.shop_module.xsd_schema',
+                destdir: '${jaxbTargetDir}',
+                package: 'greting',
                 schema: 'src/main/resources/ws/greeting.xsd'
+        )
+        ant.xjc(
+                destdir: '${jaxbTargetDir}',
+                package: 'product',
+                schema: 'src/main/resources/ws/product.xsd'
         )
     }
 }
 
-compileJava.dependsOn jaxb
+//compileJava.dependsOn jaxb
 
 tasks.named('test') {
     useJUnitPlatform()
