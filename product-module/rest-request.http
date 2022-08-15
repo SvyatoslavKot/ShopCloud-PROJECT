@@ -1,0 +1,19 @@
+GET http://localhost:8083/api/v1/product/list
+
+
+###
+
+
+GET http://localhost:8083/api/v1/product/list?page=2
+
+
+###
+GET http://localhost:8083/api/v1/product/list?page=3
+
+
+###
+GET http://localhost:8083/api/v1/product/list?titleFilter=Beer
+
+
+###
+GET http://localhost:8083/api/v1/product/list?min=50&max=150&size=10

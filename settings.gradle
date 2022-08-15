@@ -4,6 +4,10 @@ includeBuild 'eurika-Server'
 includeBuild 'eurika-Client'
 includeBuild 'eureka-Client-2'
 includeBuild 'auth-service'
+includeBuild 'shop_module'
+includeBuild 'product-module'
+
+
 
 
 includeBuild 'api-GeteWay'

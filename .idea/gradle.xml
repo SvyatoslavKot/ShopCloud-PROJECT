@@ -27,6 +27,16 @@
                   <project path="$PROJECT_DIR$/auth-service" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/shop_module" name="shop_module">
+                <projects>
+                  <project path="$PROJECT_DIR$/shop_module" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/product-module" name="product-module">
+                <projects>
+                  <project path="$PROJECT_DIR$/product-module" />
+                </projects>
+              </build>
               <build path="$PROJECT_DIR$/api-GeteWay" name="api-GeteWay">
                 <projects>
                   <project path="$PROJECT_DIR$/api-GeteWay" />
@@ -46,6 +56,8 @@
             <option value="$PROJECT_DIR$/eureka-Client-2" />
             <option value="$PROJECT_DIR$/eurika-Client" />
             <option value="$PROJECT_DIR$/eurika-Server" />
+            <option value="$PROJECT_DIR$/product-module" />
+            <option value="$PROJECT_DIR$/shop_module" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -96,6 +108,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/eurika-Server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/product-module" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/product-module" />
           </set>
         </option>
       </GradleProjectSettings>
