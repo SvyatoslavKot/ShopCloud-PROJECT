@@ -42,9 +42,7 @@ dependencies {
     implementation group: 'org.webjars', name: 'jquery',version: '3.4.1'
     implementation group: 'org.webjars', name: 'webjars-locator', version: '0.40'
 
-
-
-
+    implementation group: 'org.json', name: 'json', version: '20090211'
 
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation group: 'wsdl4j', name: 'wsdl4j'

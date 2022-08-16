@@ -6,7 +6,7 @@
 //
 
 
-package product;
+package com.example.shop_module.xsd.product;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

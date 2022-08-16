@@ -6,7 +6,7 @@
 //
 
 
-package greting;
+package com.example.shop_module.xsd.greting;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

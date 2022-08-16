@@ -1,22 +1,24 @@
 package com.example.shop_module.controller;
 
 import com.example.shop_module.aopService.MeasureMethod;
+import com.example.shop_module.domain.Product;
 import com.example.shop_module.dto.ProductDTO;
 import com.example.shop_module.service.ProductService;
 import com.example.shop_module.service.SessionObjectHolder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.shop_module.wrapper.PageableResponse;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
-import java.awt.*;
+
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -24,11 +26,35 @@ public class ProductController {
 
     private final ProductService productService;
     private final SessionObjectHolder sessionObjectHolder;
+    private final RestTemplate restTemplate;
+    private static final String PRODUCT_LIST_URL= "http://localhost:8083/api/v1/product/list";
 
-    public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder) {
+    public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder, RestTemplate restTemplate) {
         this.productService = productService;
         this.sessionObjectHolder = sessionObjectHolder;
+        this.restTemplate = restTemplate;
     }
+
+    @GetMapping("/list")
+    public String getByParam(Model model,
+                             @RequestParam(name = "titleFilter", required = false) Optional<String> titleFilter,
+                             @RequestParam(name = "min", required = false) Optional<BigDecimal> min,
+                             @RequestParam(name = "max", required = false) Optional<BigDecimal> max,
+                             @RequestParam(name = "page", required = false) Optional<Integer> page,
+                             @RequestParam(name = "size", required = false) Optional<Integer> size,
+                             @RequestParam(name = "sortField", required = false) Optional<String> sortField,
+                             @RequestParam(name = "sortOrder", required = false) Optional<String> sortOrder){
+
+        ResponseEntity<PageableResponse<Product>> exchangeProductList = restTemplate
+                .exchange(PRODUCT_LIST_URL + "?page="+page.orElse(1)  +"&size="+size.orElse(4)
+                                +"&titleFilter="+titleFilter.orElse("")   +"&min="+min.orElse(BigDecimal.valueOf(0))
+                                +"&max="+max.orElse(BigDecimal.valueOf(99999*9)),
+                        HttpMethod.GET, null, new ParameterizedTypeReference<PageableResponse<Product>>() {});
+
+        model.addAttribute("products",exchangeProductList.getBody());
+        return "product_page/products";
+    }
+
     @MeasureMethod
     @GetMapping
     public String list (Model model){
