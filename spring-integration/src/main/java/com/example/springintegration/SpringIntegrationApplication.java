@@ -31,6 +31,12 @@ public class SpringIntegrationApplication {
         DirectChannel channel = context.getBean(DirectChannel.class);
         channel.send(message);
 */
+        /*
+        ChannelGateway channelGateway = context.getBean(ChannelGateway.class);
+        channelGateway.process(new Product("Milk", 44.44));
+        channelGateway.process(new Product("Chocolate", 84.44));
+
+
         DirectChannel invokeCallGetProducts = context.getBean("invokeCallGetProducts", DirectChannel.class);
         invokeCallGetProducts.send(MessageBuilder.withPayload("").build());
 
@@ -38,7 +44,6 @@ public class SpringIntegrationApplication {
         Message<?> receive = productsChannel.receive();
         System.out.println(receive);
         System.out.println(receive.getPayload());
-
+*/
     }
-
 }
