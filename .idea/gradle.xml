@@ -131,6 +131,16 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/spring-integration" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/spring-integration" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>

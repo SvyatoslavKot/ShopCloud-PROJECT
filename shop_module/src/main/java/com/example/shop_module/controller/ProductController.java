@@ -6,6 +6,7 @@ import com.example.shop_module.dto.ProductDTO;
 import com.example.shop_module.service.ProductService;
 import com.example.shop_module.service.SessionObjectHolder;
 import com.example.shop_module.wrapper.PageableResponse;
+import org.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -27,7 +28,7 @@ public class ProductController {
     private final ProductService productService;
     private final SessionObjectHolder sessionObjectHolder;
     private final RestTemplate restTemplate;
-    private static final String PRODUCT_LIST_URL= "http://localhost:8083/api/v1/product/list";
+    private static final String PRODUCT_URL= "http://localhost:8083/api/v1/product";
 
     public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder, RestTemplate restTemplate) {
         this.productService = productService;
@@ -46,12 +47,13 @@ public class ProductController {
                              @RequestParam(name = "sortOrder", required = false) Optional<String> sortOrder){
 
         ResponseEntity<PageableResponse<Product>> exchangeProductList = restTemplate
-                .exchange(PRODUCT_LIST_URL + "?page="+page.orElse(1)  +"&size="+size.orElse(4)
+                .exchange(PRODUCT_URL + "/list?page="+page.orElse(1)  +"&size="+size.orElse(4)
                                 +"&titleFilter="+titleFilter.orElse("")   +"&min="+min.orElse(BigDecimal.valueOf(0))
                                 +"&max="+max.orElse(BigDecimal.valueOf(99999*9)),
                         HttpMethod.GET, null, new ParameterizedTypeReference<PageableResponse<Product>>() {});
-
+        List<Product> products = exchangeProductList.getBody().getContent();
         model.addAttribute("products",exchangeProductList.getBody());
+        model.addAttribute("list", products);
         return "product_page/products";
     }
 
@@ -61,8 +63,21 @@ public class ProductController {
         sessionObjectHolder.addClick();
         List<ProductDTO> list = productService.getAll();
         model.addAttribute("products", list);
-        return "product_page/products";
+        return "product_page/productTable";
     }
+
+    @GetMapping("/item/{product_id}")
+    public String getProductById(Model model, @PathVariable("product_id")Long id){
+        ResponseEntity<ProductDTO> responseItem = restTemplate
+                .getForEntity(PRODUCT_URL + "/item/productId/"+ id  , ProductDTO.class);
+        JSONObject response = new JSONObject(responseItem.getBody());
+       // System.out.println(response);
+        ProductDTO product = (ProductDTO) responseItem.getBody();
+        System.out.println(responseItem.getBody());
+        model.addAttribute("product", product);
+        return "product_page/product_item";
+    }
+
     @MeasureMethod
     @GetMapping("/{id}/bucket")
     public String addBucket(@PathVariable Long id, Principal principal) {
@@ -72,6 +87,7 @@ public class ProductController {
         productService.addToUserBucket(id, principal.getName());
         return "redirect:/product";
     }
+
     @PostMapping
     ResponseEntity<Void> addProduct(ProductDTO productDTO){
         productService.addProduct(productDTO);

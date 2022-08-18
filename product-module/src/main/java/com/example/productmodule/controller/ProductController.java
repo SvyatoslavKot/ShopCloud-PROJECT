@@ -2,13 +2,12 @@ package com.example.productmodule.controller;
 
 
 import com.example.productmodule.domain.Product;
+import com.example.productmodule.dto.ProductDTO;
+import com.example.productmodule.dto.mappers.ProductMapperDTO;
 import com.example.productmodule.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,10 +19,12 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductMapperDTO productMapperDTO;
 
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
+        this.productMapperDTO = new ProductMapperDTO();
     }
 
     @GetMapping(value = "/list", produces ="application/json")
@@ -42,4 +43,9 @@ public class ProductController {
                 max,
                 sortField,
                 sortOrder);}
+
+    @GetMapping(value = "/item/productId/{id}", produces ="application/json")
+    public ProductDTO getById(@PathVariable("id") long id){
+        return productMapperDTO.productToDTO(productService.getById(id).get());
+    }
 }
