@@ -17,5 +17,7 @@ public interface BucketService {
 
     BucketDTO getBucketByUser (String  email);
 
+    void commitBucketToOrder(String email);
+
 
 }

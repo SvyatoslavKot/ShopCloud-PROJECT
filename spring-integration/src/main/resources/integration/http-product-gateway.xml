@@ -15,7 +15,7 @@
 
     <int:channel id="newsChannel"/>
 
-    <int:channel id="orderChannel"/>
+
 
     <int:channel id="get_products_channel">
         <int:queue capacity="10"/>
@@ -37,12 +37,6 @@
         <int-http:request-mapping consumes="application/json"/>
     </int-http:inbound-channel-adapter>
 
-    <int-http:inbound-channel-adapter id="httpOrder" channel="orderChannel"
-                                      supported-methods="POST"
-                                      path="/orders"
-                                      request-payload-type="com.example.springintegration.domain.Order">
-        <int-http:request-mapping consumes="application/json"/>
-    </int-http:inbound-channel-adapter>
 
 
 </beans>

@@ -37,7 +37,8 @@ public class Order {
     private String address;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderDetails> details;
+    @JoinColumn(name = "id")
+    private List<OrderDetails> orders_details;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

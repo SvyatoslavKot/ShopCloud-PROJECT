@@ -15,7 +15,7 @@ public class OrderServiceImpl implements OrderService{
     public void save(Order order) {
         File orderFolder = new File("C:\\Users\\NADEZHDA\\IdeaProjects\\ShopCloud\\orders");
 
-        File orderFile = new File(orderFolder, "1" + ".json");
+        File orderFile = new File(orderFolder, order.getOrderId() + ".json");
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         try {

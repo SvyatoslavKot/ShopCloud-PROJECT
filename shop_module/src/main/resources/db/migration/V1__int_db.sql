@@ -59,7 +59,7 @@ create TABLE orders(
 
 DROP TABLE  IF EXISTS orders_details;
 create TABLE orders_details(
-                              id BIGINT PRIMARY KEY,
+                              id SERIAL PRIMARY KEY,
                               amount DECIMAL,
                               price DECIMAL,
                               order_id BIGINT,
@@ -68,4 +68,5 @@ create TABLE orders_details(
                               foreign key (product_id) references products(id)
 
 );
+
 

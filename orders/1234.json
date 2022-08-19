@@ -1,0 +1,16 @@
+{
+  "orderId" : 1234,
+  "username" : "user",
+  "address" : "Address",
+  "details" : [ {
+    "product" : "milk",
+    "price" : 10.0,
+    "amount" : 2.0,
+    "sum" : 20.0
+  }, {
+    "product" : "teat",
+    "price" : 50.0,
+    "amount" : 2.0,
+    "sum" : 100.0
+  } ]
+}
