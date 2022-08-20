@@ -22,6 +22,7 @@ public class OrderDetails {
     @Column(name = "id")
     private Long id;
 
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

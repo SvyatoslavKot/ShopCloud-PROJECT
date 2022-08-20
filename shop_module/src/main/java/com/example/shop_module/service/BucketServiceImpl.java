@@ -4,6 +4,7 @@ import com.example.shop_module.domain.*;
 import com.example.shop_module.dto.BucketDTO;
 import com.example.shop_module.dto.BucketDetailsDTO;
 import com.example.shop_module.repository.BucketRepository;
+import com.example.shop_module.repository.OrderDetailsRepo;
 import com.example.shop_module.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,13 @@ public class BucketServiceImpl implements BucketService {
 
     private final BucketRepository bucketRepository;
     private final ProductRepository productRepository;
+    private final OrderDetailsRepo orderDetailsRepo;
+
     private final UserService userService;
     private final OrderService orderService;
 
-    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService, OrderService orderService) {
+    public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService, OrderService orderService, OrderDetailsRepo orderDetailsRepo) {
+        this.orderDetailsRepo = orderDetailsRepo;
         this.bucketRepository = bucketRepository;
         this.productRepository = productRepository;
         this.userService = userService;
@@ -90,7 +94,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     @Transactional
-    public void commitBucketToOrder(String email) {
+    public void commitBucketToOrder(String email){
         User user = userService.finByMail(email);
         if (user == null) {
             throw  new RuntimeException("User is not found");
@@ -108,7 +112,7 @@ public class BucketServiceImpl implements BucketService {
                 .collect(Collectors.groupingBy(product -> product, Collectors.counting()));
 
         List<OrderDetails> orderDetails = productWithAmount.entrySet().stream()
-                .map(pair -> new OrderDetails(order, pair.getKey(), pair.getValue()))
+                .map(pair -> (orderDetailsRepo.save(new OrderDetails(order, pair.getKey(), pair.getValue()))))
                 .collect(Collectors.toList());
 
 
@@ -116,7 +120,7 @@ public class BucketServiceImpl implements BucketService {
                 .map(detail -> detail.getPrice().multiply(detail.getAmount()))
                 .mapToDouble(BigDecimal::doubleValue).sum());
 
-       // order.setOrders_details(orderDetails);
+        order.setOrders_details(new ArrayList<>());
         order.setSum(total);
         order.setAddress("none");
 

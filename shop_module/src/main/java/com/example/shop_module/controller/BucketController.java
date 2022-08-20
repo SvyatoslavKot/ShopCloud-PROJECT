@@ -30,7 +30,8 @@ public class BucketController {
     }
 
     @PostMapping("/bucket")
-    public String commitBucket(Principal principal){
+
+    public String commitBucket(Principal principal) throws Exception {
         if (principal != null) {
             bucketService.commitBucketToOrder(principal.getName());
         }

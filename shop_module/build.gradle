@@ -52,6 +52,8 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+    implementation group: 'org.springframework.integration', name: 'spring-integration-http'
+
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'

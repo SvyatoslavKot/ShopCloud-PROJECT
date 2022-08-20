@@ -28,4 +28,17 @@ public class User {
     private Role role;
     @OneToOne(cascade = CascadeType.REMOVE)
     private Bucket bucket;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                ", archive=" + archive +
+                ", role=" + role +
+                ", bucket=" + bucket +
+                '}';
+    }
 }

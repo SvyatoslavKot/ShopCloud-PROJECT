@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.IOException;
 @Service
 public class OrderServiceImpl implements OrderService{
     @Override
+    @Transactional
     public void save(Order order) {
         File orderFolder = new File("C:\\Users\\NADEZHDA\\IdeaProjects\\ShopCloud\\orders");
 

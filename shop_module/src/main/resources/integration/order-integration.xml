@@ -13,10 +13,10 @@
     <int:channel id="ordersChannel"/>
 
     <int-http:outbound-channel-adapter id="ordersAdapter"
-                                      url="http://localhost:8090/orders"
-                                      http-method="POST"
-                                      charset="UTF-8"
-                                      channel="ordersChannel">
+                                       url="http://localhost:8090/orders"
+                                       http-method="POST"
+                                       charset="UTF-8"
+                                       channel="ordersChannel">
     </int-http:outbound-channel-adapter>
 
 
