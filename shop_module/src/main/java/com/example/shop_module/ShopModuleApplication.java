@@ -1,5 +1,6 @@
 package com.example.shop_module;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -17,5 +18,7 @@ public class ShopModuleApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
+
 
 }

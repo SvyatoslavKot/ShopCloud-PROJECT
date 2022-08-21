@@ -53,6 +53,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
     implementation group: 'org.springframework.integration', name: 'spring-integration-http'
+    //implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
+    implementation group: 'org.springframework.amqp', name: 'spring-rabbit'
 
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     compileOnly 'org.projectlombok:lombok'
