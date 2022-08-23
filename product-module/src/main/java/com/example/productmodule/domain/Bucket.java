@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "buckets_v2")
+@Table(name = "buckets")
 public class Bucket {
 
     @Id

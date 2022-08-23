@@ -3,10 +3,13 @@ package com.example.shop_module.controller;
 import com.example.shop_module.aopService.MeasureMethod;
 import com.example.shop_module.domain.Product;
 import com.example.shop_module.dto.ProductDTO;
+import com.example.shop_module.mapper.ProductDtoMapper;
+import com.example.shop_module.mq.Producer;
 import com.example.shop_module.service.ProductService;
 import com.example.shop_module.service.SessionObjectHolder;
 import com.example.shop_module.wrapper.PageableResponse;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -28,6 +31,11 @@ public class ProductController {
     private final ProductService productService;
     private final SessionObjectHolder sessionObjectHolder;
     private final RestTemplate restTemplate;
+    private ProductDtoMapper productDtoMapper = new ProductDtoMapper();
+
+    @Autowired
+    private Producer producer;
+
     private static final String PRODUCT_URL= "http://localhost:8083/api/v1/product";
 
     public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder, RestTemplate restTemplate) {
@@ -66,15 +74,17 @@ public class ProductController {
         return "product_page/productTable";
     }
 
+
     @GetMapping("/item/{product_id}")
     public String getProductById(Model model, @PathVariable("product_id")Long id){
-        ResponseEntity<ProductDTO> responseItem = restTemplate
-                .getForEntity(PRODUCT_URL + "/item/productId/"+ id  , ProductDTO.class);
-        JSONObject response = new JSONObject(responseItem.getBody());
+        ProductDTO dto = producer.getProductItem(id);
+       // ResponseEntity<ProductDTO> responseItem = restTemplate
+           //     .getForEntity(PRODUCT_URL + "/item/productId/"+ id  , ProductDTO.class);
+      //  JSONObject response = new JSONObject(responseItem.getBody());
        // System.out.println(response);
-        ProductDTO product = (ProductDTO) responseItem.getBody();
-        System.out.println(responseItem.getBody());
-        model.addAttribute("product", product);
+       // ProductDTO product = (ProductDTO) responseItem.getBody();
+       // System.out.println(responseItem.getBody());
+        model.addAttribute("product", productDtoMapper.productFromDTO(dto));
         return "product_page/product_item";
     }
 

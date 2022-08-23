@@ -1,11 +1,9 @@
 package com.example.shop_module.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
@@ -13,8 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User {
-
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +35,7 @@ public class User {
                 ", mail='" + mail + '\'' +
                 ", archive=" + archive +
                 ", role=" + role +
-                ", bucket=" + bucket +
+                ", bucket=" + bucket.getId() +
                 '}';
     }
 }

@@ -3,7 +3,9 @@ package com.example.shop_module.service;
 import com.example.shop_module.config.OrderIntegrationConfig;
 import com.example.shop_module.domain.Order;
 import com.example.shop_module.dto.OrderIntegrationDTO;
+import com.example.shop_module.mq.Producer;
 import com.example.shop_module.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final OrderIntegrationConfig integrationConfig;
 
+    @Autowired
+    Producer producer;
+
     public OrderServiceImpl(OrderRepository orderRepository, OrderIntegrationConfig integrationConfig) {
         this.orderRepository = orderRepository;
         this.integrationConfig = integrationConfig;
@@ -28,8 +33,10 @@ public class OrderServiceImpl implements OrderService{
     public void saveOrder(Order order) {
         Order saveOrder = orderRepository.save(order);
         System.out.println("*****************************************");
-        sendIntegrationNotify(saveOrder);
+        producer.sendOrder(order);
+        //sendIntegrationNotify(saveOrder);
     }
+
 
     //@Transactional
     public void sendIntegrationNotify(Order order){

@@ -1,13 +1,17 @@
 package com.example.rabbit.config;
 
 
+import com.rabbitmq.client.AMQP;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,19 +35,35 @@ public class RabbitConfig {
     }
 
     @Bean
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setExchange("routing-exchange");
-        //rabbitTemplate.setReplyTimeout(60 * 1000);
-        //rabbitTemplate.setExchange("topic-exchange");
+        rabbitTemplate.setExchange("query-remote-exchange");
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
         return rabbitTemplate;
     }
+
+    @Bean
+    public RabbitListenerContainerFactory<?> rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+        return factory;
+    }
+
+    AMQP.BasicProperties prop = new AMQP.BasicProperties.Builder()
+            .replyTo("query-remote-producer").build();
 
     //объявляем очередь с именем queue1
     @Bean
     public Queue myQueue1() {
         return new Queue("queue1");
     }
+
     //объявляем очередь с именем query-example-2
     @Bean
     public Queue myQueue2() {
@@ -63,17 +83,17 @@ public class RabbitConfig {
     }
 
     @Bean
-    public FanoutExchange fanoutExchangeA(){
+    public FanoutExchange fanoutExchangeA() {
         return new FanoutExchange("exchange-example-3");
     }
 
     @Bean
-    public Binding binding1(){
+    public Binding binding1() {
         return BindingBuilder.bind(myQueue3()).to(fanoutExchangeA());
     }
 
     @Bean
-    public Binding binding2(){
+    public Binding binding2() {
         return BindingBuilder.bind(myQueue4()).to(fanoutExchangeA());
     }
     //----------------------///--------///-------------------
@@ -91,27 +111,28 @@ public class RabbitConfig {
     }
 
     @Bean
-    public DirectExchange directExchange(){
+    public DirectExchange directExchange() {
         return new DirectExchange("routing-exchange");
     }
 
+
     @Bean
-    public Binding errorBinding5(){
+    public Binding errorBinding5() {
         return BindingBuilder.bind(myQueue5()).to(directExchange()).with("error");
     }
 
     @Bean
-    public Binding errorBinding6(){
+    public Binding errorBinding6() {
         return BindingBuilder.bind(myQueue6()).to(directExchange()).with("error");
     }
 
     @Bean
-    public Binding infoBinding(){
+    public Binding infoBinding() {
         return BindingBuilder.bind(myQueue6()).to(directExchange()).with("info");
     }
 
     @Bean
-    public Binding warningBinding(){
+    public Binding warningBinding() {
         return BindingBuilder.bind(myQueue6()).to(directExchange()).with("warning");
     }
 
@@ -130,7 +151,7 @@ public class RabbitConfig {
 
 
     @Bean
-    public TopicExchange topicExchange(){
+    public TopicExchange topicExchange() {
         return new TopicExchange("topic-exchange");
     }
     /*
@@ -143,29 +164,37 @@ public class RabbitConfig {
      */
 
     @Bean
-    public Binding binding7(){
+    public Binding binding7() {
         return BindingBuilder.bind(myQueue7()).to(topicExchange()).with("*.orange.*");
     }
 
     @Bean
-    public Binding binding8(){
+    public Binding binding8() {
         return BindingBuilder.bind(myQueue8()).to(topicExchange()).with("*.*.rabbit");
     }
 
     @Bean
-    public Binding binding9(){
+    public Binding binding9() {
         return BindingBuilder.bind(myQueue8()).to(topicExchange()).with("lazy.#");
     }
     //------------------------//-----------------------//----------------------------//
 
     @Bean
     public Queue myQueue10() {
+
         return new Queue("query-remote-producer");
     }
+
     @Bean
-    public Queue myQueue11() {
-        return new Queue("query-remote-producer2");
+    public DirectExchange queryRemoteExchange() {
+        return new DirectExchange("query-remote-exchange");
     }
+
+    @Bean
+    public Binding recevedBinding() {
+        return BindingBuilder.bind(myQueue10()).to(queryRemoteExchange()).with("query-remote-producer");
+    }
+
 
 
     /*

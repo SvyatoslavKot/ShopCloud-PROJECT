@@ -1,17 +1,12 @@
 package com.example.shop_module.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,11 +14,11 @@ import java.util.Objects;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "orders")
-public class Order {
+@ToString
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +36,13 @@ public class Order {
     private String address;
 
     @OneToMany
-    private List<OrderDetails> orders_details;
+    private List<OrdersDetails> orders_details;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    public Order() {
+    }
 
     @Override
     public String toString() {

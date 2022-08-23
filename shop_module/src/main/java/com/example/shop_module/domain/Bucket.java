@@ -1,12 +1,10 @@
 package com.example.shop_module.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -15,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "buckets")
-public class Bucket {
+public class Bucket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +27,13 @@ public class Bucket {
             joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
+
+    @Override
+    public String toString() {
+        return "Bucket{" +
+                "id=" + id +
+                ", user=" + user.getMail() +
+                ", products=" + products +
+                '}';
+    }
 }

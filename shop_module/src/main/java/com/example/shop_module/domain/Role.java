@@ -1,6 +1,8 @@
 package com.example.shop_module.domain;
 
-public enum Role {
+import java.io.Serializable;
+
+public enum Role implements Serializable {
     CLIENT,
     MANAGER,
     ADMIN

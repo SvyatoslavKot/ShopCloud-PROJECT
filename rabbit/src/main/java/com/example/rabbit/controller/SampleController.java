@@ -90,11 +90,10 @@ public class SampleController {
 
     @RequestMapping("/process/{message}")
     @ResponseBody
-    String error(@PathVariable("message") String message) {
+    String process(@PathVariable("message") String message) {
         System.out.println(String.format("Emit '%s'",message));
-
         String response = (String) rabbitTemplate.convertSendAndReceive("query-remote-producer",message);
-        System.out.println(String.format("Received on producer '%s'",response));
+        System.out.println(String.format("Received on producer : '%s'",response));
         return String.valueOf("returned from worker : " + response);
     }
 }

@@ -72,7 +72,7 @@ public class RabbitMqListener {
     @RabbitListener(queues = "query-remote-producer")
     public String worker10(String message) throws InterruptedException {
         System.out.println("Received on worker : " + message);
-        Thread.sleep(3000);
-        return "Received on worker : " + message;
+       // Thread.sleep(3000);
+        return "Query-Remote message from addressLine : " + message;
     }
 }

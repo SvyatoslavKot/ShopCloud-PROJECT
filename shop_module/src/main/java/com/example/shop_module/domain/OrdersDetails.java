@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Table(name = "orders_details")
-public class OrderDetails {
+public class OrdersDetails implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class OrderDetails {
     private BigDecimal price;
 
 
-    public OrderDetails(Order order, Product product, Long amount) {
+    public OrdersDetails(Order order, Product product, Long amount) {
         this.order = order;
         this.product = product;
         this.amount = new BigDecimal(amount);

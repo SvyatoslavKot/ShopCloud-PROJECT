@@ -1,6 +1,8 @@
 package com.example.shop_module.domain;
 
-public enum OrderStatus {
+import java.io.Serializable;
+
+public enum OrderStatus implements Serializable {
     NEW,
     APPROVED,
     CANCELED,

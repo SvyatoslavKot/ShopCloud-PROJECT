@@ -1,10 +1,9 @@
 package com.example.shop_module.dto;
 
-import com.example.shop_module.domain.OrderDetails;
+import com.example.shop_module.domain.OrdersDetails;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.LifecycleState;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class OrderIntegrationDTO {
         private Double amount;
         private Double sum;
 
-        public OrderDetailsDTO(OrderDetails details) {
+        public OrderDetailsDTO(OrdersDetails details) {
             this.product = details.getProduct().getTitle();
             this.price = details.getPrice().doubleValue();
             this.amount = details.getAmount().doubleValue();
