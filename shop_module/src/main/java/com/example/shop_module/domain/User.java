@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,6 +26,12 @@ public class User implements Serializable {
     private Role role;
     @OneToOne(cascade = CascadeType.REMOVE)
     private Bucket bucket;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name ="products_users",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Product> favoriteProductList;
 
     @Override
     public String toString() {

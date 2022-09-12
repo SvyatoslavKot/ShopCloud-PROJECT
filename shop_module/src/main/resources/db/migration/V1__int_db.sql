@@ -1,12 +1,12 @@
 DROP TABLE  IF EXISTS buckets;
 create TABLE buckets(
-                        id BIGINT PRIMARY KEY,
+                        id SERIAL PRIMARY KEY,
                         user_id BIGINT
 );
 
 DROP TABLE  IF EXISTS users;
 create TABLE users (
-                       id BIGINT primary key ,
+                       id SERIAL primary key ,
                        name varchar(255),
                        e_mail varchar(255),
                        password varchar(255),
@@ -18,7 +18,7 @@ create TABLE users (
 
 DROP TABLE  IF EXISTS products;
 create TABLE products(
-                         id BIGINT PRIMARY KEY,
+                         id SERIAL PRIMARY KEY,
                          title varchar(255),
                          price DECIMAL
 
@@ -26,27 +26,27 @@ create TABLE products(
 
 DROP TABLE IF EXISTS buckets_products;
 CREATE TABLE  buckets_products(
-                                  id BIGINT PRIMARY KEY ,
+                                  id SERIAL PRIMARY KEY ,
                                   bucket_id BIGINT,
                                   product_id BIGINT
 );
 
 DROP TABLE  IF EXISTS categories;
 create TABLE categories(
-                           id BIGINT PRIMARY KEY,
+                           id SERIAL PRIMARY KEY,
                            title varchar(255)
 );
 
 DROP TABLE IF EXISTS products_categories;
 CREATE TABLE  products_categories(
-                                     id BIGINT PRIMARY KEY ,
+                                     id SERIAL PRIMARY KEY ,
                                      product_id BIGINT,
                                      category_id BIGINT
 );
 
 DROP TABLE  IF EXISTS orders;
 create TABLE orders(
-                       id BIGINT PRIMARY KEY,
+                       id SERIAL PRIMARY KEY,
                        address varchar(255),
                        created timestamp,
                        update timestamp,

@@ -1,6 +1,7 @@
 package com.example.authservice.security;
 
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtTokenProvader {
     @Value("${jwt.secret}")
     private String secretKey;
@@ -35,6 +37,7 @@ public class JwtTokenProvader {
     @PostConstruct
     protected void init(){
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        System.out.println(secretKey);
     }
 
 
@@ -66,7 +69,15 @@ public class JwtTokenProvader {
         return new UsernamePasswordAuthenticationToken( userDetails,"" ,userDetails.getAuthorities());
     }
     public String getUsername(String token){
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        try{
+            String parseToken = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+            return parseToken;
+        }catch (JwtException e ){
+            log.error(e.getMessage());
+            return null;
+        }
+
+
     }
 
 

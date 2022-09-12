@@ -19,4 +19,13 @@ Content-Type: application/json
 
 
 ###
+POST http://localhost:8082/api/v1/auth/current
+Content-Type: application/json
+
+{
+    "token": "eyhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQG1haWwiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTY2Mjk3NTc3OSwiZXhwIjoxNjYzNTgwNjU5fQ.TIgzbvOS-EKq7tqcF7pNMAH7yVxEFgofGVLheGhk51A"
+}
+
+
+###
 

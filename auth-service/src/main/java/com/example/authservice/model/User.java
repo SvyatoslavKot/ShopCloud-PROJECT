@@ -28,4 +28,12 @@ public class User {
     private Role role;
     @Column(name = "status")
     private String status;
+
+    public User(UserRequest userRequest) {
+        this.mail = userRequest.getMail();
+        this.firstName = userRequest.getFirstName();
+        this.lastName = userRequest.getLastName();
+        this.password = userRequest.getPassword();
+        this.status = userRequest.getStatus();
+    }
 }

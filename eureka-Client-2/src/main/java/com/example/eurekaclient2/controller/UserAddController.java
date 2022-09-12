@@ -1,7 +1,7 @@
 package com.example.eurekaclient2.controller;
 
 import com.example.eurekaclient2.model.User;
-import com.example.eurekaclient2.repository.UserReposiroty;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +13,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/user/v1/")
 public class UserAddController {
+/*
 
-    private UserReposiroty userReposiroty;
-    @Autowired
-    public UserAddController(UserReposiroty userReposiroty) {
+
+   // private UserReposiroty userReposiroty;
+  //  @Autowired
+  //  public UserAddController(UserReposiroty userReposiroty) {
         this.userReposiroty = userReposiroty;
     }
 
@@ -28,5 +30,5 @@ public class UserAddController {
     @GetMapping("user/list")
     public Iterable<User> getAllUsers(){
         return userReposiroty.findAll();
-    }
+    }*/
 }
