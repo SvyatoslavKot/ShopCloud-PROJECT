@@ -1,7 +1,5 @@
 package com.example.shop_module.config;
 
-import com.example.shop_module.domain.Role;
-import com.example.shop_module.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,17 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 import javax.persistence.Basic;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UserDetailsServiceImpl userDetailsService;
-
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -33,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Basic
     private AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userDetailsService);
+        //auth.setUserDetailsService(userDetailsService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -47,17 +40,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/webjars/*").permitAll()
                 .antMatchers("/ws").permitAll()
-                .antMatchers("/user/list").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
-                .antMatchers("/user/new").permitAll()  //hasAuthority(Role.ADMIN.name())
+                .antMatchers("/**").permitAll()
+                //.antMatchers("/user/list").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
+                //.antMatchers("/user/new").permitAll()  //hasAuthority(Role.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/main/login")
                 .loginProcessingUrl("/auth")
                 .permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/main").deleteCookies("AUTH-TOKEN")
                 .invalidateHttpSession(true)
                 .and()
                 .csrf().disable();

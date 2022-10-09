@@ -7,23 +7,19 @@
 <body>
 <nav th:insert="include/navBar :: navbar"></nav>
 <H1> User PROFILE</H1>
-<form th:action="@{/user/profile}" th:object="${user}" method="post">
+<form th:method="post" th:action="@{/user/profile}" th:object="${user}" method="post">
     <table border="1">
         <tr>
             <td>Name</td>
-            <td><input type="text" th:field="*{username}"/></td>
+            <td><input type="text" th:field="*{firstName}"/></td>
         </tr>
         <tr>
-            <td>EMail</td>
-            <td><input type="email" th:field="*{email}"/></td>
+            <td>Lastname</td>
+            <td><input type="text" th:field="*{lastName}"/></td>
         </tr>
         <tr>
-            <td>password</td>
-            <td><input type="password" th:field="*{password}"/></td>
-        </tr>
-        <tr>
-            <td>Password confirm</td>
-            <td><input type="password" th:field="*{matchingPassword}"/></td>
+            <td>@Mail</td>
+            <td><input type="email" th:field="*{mail}"/></td>
         </tr>
     </table>
     <button type="submit"> Save</button>

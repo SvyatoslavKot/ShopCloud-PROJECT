@@ -44,8 +44,4 @@ public class ProductController {
                 sortField,
                 sortOrder);}
 
-    @GetMapping(value = "/item/productId/{id}", produces ="application/json")
-    public ProductDTO getById(@PathVariable("id") long id){
-        return productMapperDTO.productToDTO(productService.getById(id).get());
-    }
 }

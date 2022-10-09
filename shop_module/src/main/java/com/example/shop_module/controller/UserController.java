@@ -2,8 +2,11 @@ package com.example.shop_module.controller;
 
 import com.example.shop_module.domain.User;
 import com.example.shop_module.dto.UserDTO;
+import com.example.shop_module.mq.ProducerShopClient;
 import com.example.shop_module.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +20,11 @@ import java.util.Objects;
 public class UserController {
 
     private UserService userService;
+    private ProducerShopClient producerShopClientService;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ProducerShopClient producerShopClientService) {
         this.userService = userService;
+        this.producerShopClientService = producerShopClientService;
     }
 
 
@@ -43,44 +48,40 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public String saveUser(@ModelAttribute("dto") UserDTO userDTO, Model model){
-        System.out.println(userDTO.getEmail()+ " " + userDTO.getPassword());
-
-
-        if (userService.save(userDTO)){
+    public String saveUser(@ModelAttribute("dto") UserDTO userDTO, Model model) {
+        System.out.println(userDTO.getMail() + " " + userDTO.getPassword());
+        ResponseEntity response = userService.registrationClient(userDTO);
+        if (response.getStatusCode().equals(HttpStatus.OK)) {
             return "redirect:/login";
-        }else {
-            model.addAttribute("user", userDTO);
-            return "registration";
         }
+        System.out.println("error ->" + response.getBody());
+        return "redirect:/user/new";
     }
+
 
     @GetMapping("/profile")
     public String profileUser(Model model, Principal principal){
         if(principal == null) {
-            throw new RuntimeException("Yuo are not authorize!");
+            throw new RuntimeException("You are not authorize!");
         }
-        User user = userService.finByMail(principal.getName());
+        UserDTO userDTO =  producerShopClientService.getClientByMail(principal.getName());
+       /* User user = userService.finByMail(principal.getName());
 
         UserDTO dto  = UserDTO.builder()
-                .username(user.getName())
-                .email(user.getMail())
+                .firstName(user.getName())
+                .mail(user.getMail())
                 .build();
-        model.addAttribute("user", dto);
+
+        */
+        model.addAttribute("user", userDTO);
         return "profile";
 
     }
 
     @PostMapping("/profile")
     public String updateProfileUser(UserDTO dto, Model model, Principal principal) {
-        if (principal == null || !Objects.equals(principal.getName(), dto.getEmail())){
+        if (principal == null || !Objects.equals(principal.getName(), dto.getMail())){
             throw new RuntimeException("You are not authorize!");
-        }
-        if(dto.getPassword() !=null
-        && !dto.getPassword().isEmpty()
-        && !Objects.equals(dto.getPassword(), dto.getMatchingPassword())){
-            model.addAttribute("user", dto);
-            return "profile";
         }
         userService.updateProfile(dto);
         return "redirect:/user/profile";

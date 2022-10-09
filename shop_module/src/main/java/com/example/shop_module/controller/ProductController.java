@@ -3,12 +3,14 @@ package com.example.shop_module.controller;
 import com.example.shop_module.aopService.MeasureMethod;
 import com.example.shop_module.domain.Product;
 import com.example.shop_module.dto.ProductDTO;
+import com.example.shop_module.exceptions.NoConnectedToMQException;
+import com.example.shop_module.exceptions.ResponseMessageException;
 import com.example.shop_module.mapper.ProductDtoMapper;
-import com.example.shop_module.mq.Producer;
+import com.example.shop_module.mq.ProduceProductModule;
 import com.example.shop_module.service.ProductService;
 import com.example.shop_module.service.SessionObjectHolder;
 import com.example.shop_module.wrapper.PageableResponse;
-import org.json.JSONObject;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -32,16 +34,15 @@ public class ProductController {
     private final SessionObjectHolder sessionObjectHolder;
     private final RestTemplate restTemplate;
     private ProductDtoMapper productDtoMapper = new ProductDtoMapper();
-
-    @Autowired
-    private Producer producer;
+    private ProduceProductModule produceProductModule;
 
     private static final String PRODUCT_URL= "http://localhost:8083/api/v1/product";
 
-    public ProductController(ProductService productService, SessionObjectHolder sessionObjectHolder, RestTemplate restTemplate) {
+    public ProductController(ProduceProductModule produceProductModule, ProductService productService, SessionObjectHolder sessionObjectHolder, RestTemplate restTemplate) {
         this.productService = productService;
         this.sessionObjectHolder = sessionObjectHolder;
         this.restTemplate = restTemplate;
+        this.produceProductModule = produceProductModule;
     }
 
     @GetMapping("/list")
@@ -54,7 +55,7 @@ public class ProductController {
                              @RequestParam(name = "sortField", required = false) Optional<String> sortField,
                              @RequestParam(name = "sortOrder", required = false) Optional<String> sortOrder){
 
-        ResponseEntity<PageableResponse<Product>> exchangeProductList = restTemplate
+        ResponseEntity<PageableResponse<Product>> exchangeProductList = restTemplate//вынести в service
                 .exchange(PRODUCT_URL + "/list?page="+page.orElse(1)  +"&size="+size.orElse(4)
                                 +"&titleFilter="+titleFilter.orElse("")   +"&min="+min.orElse(BigDecimal.valueOf(0))
                                 +"&max="+max.orElse(BigDecimal.valueOf(99999*9)),
@@ -64,6 +65,7 @@ public class ProductController {
         model.addAttribute("list", products);
         return "product_page/products";
     }
+
 
     @MeasureMethod
     @GetMapping
@@ -76,17 +78,19 @@ public class ProductController {
 
 
     @GetMapping("/item/{product_id}")
-    public String getProductById(Model model, @PathVariable("product_id")Long id){
-        ProductDTO dto = producer.getProductItem(id);
-       // ResponseEntity<ProductDTO> responseItem = restTemplate
-           //     .getForEntity(PRODUCT_URL + "/item/productId/"+ id  , ProductDTO.class);
-      //  JSONObject response = new JSONObject(responseItem.getBody());
-       // System.out.println(response);
-       // ProductDTO product = (ProductDTO) responseItem.getBody();
-       // System.out.println(responseItem.getBody());
-        model.addAttribute("product", productDtoMapper.productFromDTO(dto));
-        return "product_page/product_item";
-    }
+    public String getProductById(Model model, @PathVariable("product_id")Long id)  {
+            ResponseEntity response = productService.getById(id);
+            if (response.getStatusCode().equals(HttpStatus.OK)) {
+                System.out.println("response ok ->" + response.getBody());
+                ProductDTO dto = (ProductDTO) response.getBody();
+                model.addAttribute("product", productDtoMapper.productFromDTO(dto));
+                return "product_page/product_item";
+            }
+            String exceptionMsg = response.getBody().toString().split("\"")[1];
+            model.addAttribute("product", productDtoMapper.productFromDTO(new ProductDTO()));
+            model.addAttribute("msg", exceptionMsg);
+            return "product_page/product_item";
+        }
 
     @MeasureMethod
     @GetMapping("/{id}/bucket")
@@ -110,12 +114,5 @@ public class ProductController {
     }
 
 
-    @GetMapping("/{id}/bucket/remove")
-    public String removeFromBucket(@PathVariable Long id, Principal principal){
-        if (principal == null){
-            return "redirect:/bucket";
-        }
-        productService.removeFromBucket(id, principal.getName());
-        return "redirect:/bucket";
-    }
+
 }

@@ -1,9 +1,6 @@
 package com.example.productmodule.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,6 +20,7 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //private int amountInStock;
     private String title;
     private BigDecimal price;
     @ManyToMany(cascade = CascadeType.ALL)
@@ -30,5 +29,16 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
+    public Product(Long id, String title, BigDecimal price, ArrayList<Category> categories) {
+    }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", categories=" + categories +
+                '}';
+    }
 }

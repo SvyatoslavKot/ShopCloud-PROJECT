@@ -8,6 +8,7 @@ import org.hibernate.annotations.Fetch;
 import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -16,13 +17,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "buckets")
-public class Bucket {
+public class Bucket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
-    private Long user_id;
+    @Column(name = "user_mail")
+    private String userMail;
 
     @ManyToMany
     @JoinTable(name = "buckets_products",

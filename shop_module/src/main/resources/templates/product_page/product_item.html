@@ -17,10 +17,16 @@
                 </h1>
             </div>
 
+            <div class="col-10 mt-5">
+                <h4 th:if="${msg}" th:text="${msg}" class="text-center text-danger">
+                    Product ITEM
+                </h4>
+            </div>
+
         </div>
     </div>
 
-    <table class="table clo-8 ">
+    <table th:unless="${msg}" class="table clo-8 ">
         <thead>
         <tr class="text-center">
             <th scope="col">id</th>

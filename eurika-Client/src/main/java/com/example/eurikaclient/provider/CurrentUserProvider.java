@@ -1,6 +1,6 @@
 package com.example.eurikaclient.provider;
 
-import com.example.eurikaclient.model.UserResponse;
+import com.example.eurikaclient.jwtBeans.UserResponse;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

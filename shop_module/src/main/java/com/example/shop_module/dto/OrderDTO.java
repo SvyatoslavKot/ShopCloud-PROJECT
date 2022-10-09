@@ -1,7 +1,7 @@
 package com.example.shop_module.dto;
 
 
-import com.example.shop_module.domain.OrdersDetails;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,14 +12,17 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties
 @ToString
 public class OrderDTO implements Serializable {
     private Long id;
-    private String created;
-    private String update;
+    //private String created;
+   // private String update;
     private String userMail;
     private BigDecimal sum;
     private String address;
+    private String phone;
+    private String delivery;
     private String status;
-    private List<OrdersDetails> orderDetails;
+    private  List<OrderDetailsDto> orderDetails;
 }

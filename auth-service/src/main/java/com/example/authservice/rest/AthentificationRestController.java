@@ -3,7 +3,10 @@ package com.example.authservice.rest;
 
 import com.example.authservice.model.*;
 import com.example.authservice.repository.UserRepository;
-import com.example.authservice.security.AppUserService;
+import com.example.authservice.requestBeans.TokenResponse;
+import com.example.authservice.requestBeans.UserRequest;
+import com.example.authservice.requestBeans.UserResponse;
+import com.example.authservice.service.AppUserService;
 import com.example.authservice.security.JwtTokenProvader;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -28,9 +28,10 @@ dependencies {
 
 	implementation group: 'org.springframework.amqp', name: 'spring-rabbit'
 
-	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'mysql:mysql-connector-java'
+	//runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.flywaydb:flyway-core'
+	//implementation 'org.flywaydb:flyway-core'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

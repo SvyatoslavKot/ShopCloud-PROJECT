@@ -63,6 +63,16 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Shopclient_module" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/Shopclient_module" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/api-GeteWay/api-GateWay" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
         <option name="modules">
@@ -108,6 +118,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/eurika-Server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/order_module" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/order_module" />
           </set>
         </option>
       </GradleProjectSettings>

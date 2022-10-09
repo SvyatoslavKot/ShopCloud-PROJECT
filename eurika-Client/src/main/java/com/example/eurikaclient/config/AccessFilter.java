@@ -1,9 +1,10 @@
 package com.example.eurikaclient.config;
 
-import com.example.eurikaclient.model.UserResponse;
+import com.example.eurikaclient.jwtBeans.UserResponse;
 import com.example.eurikaclient.provider.CurrentUserProvider;
 import com.example.eurikaclient.provider.JwtSettingsProvider;
 import com.example.eurikaclient.provider.JwtTokenProvider;
+import com.example.eurikaclient.provider.JwtTokenProviderService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
@@ -31,15 +32,17 @@ public class AccessFilter implements Filter
     private final JwtTokenProvider jwtTokenProvider;
     private final RestTemplate restTemplate;
     private final CurrentUserProvider currentUserProvider;
-    private final Gson gson = new Gson();
+    private final JwtTokenProviderService jwtTokenProviderService;
     private String secretKey = "secretKey";
 
     public AccessFilter(JwtSettingsProvider jwtSettingsProvider, CurrentUserProvider currentUserProvider,
-                        RestTemplate restTemplate, JwtTokenProvider jwtTokenProvider) {
+                        RestTemplate restTemplate, JwtTokenProvider jwtTokenProvider, JwtTokenProviderService jwtTokenProviderService) {
         this.jwtSettingsProvider = jwtSettingsProvider;
         this.currentUserProvider = currentUserProvider;
         this.restTemplate = restTemplate;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtTokenProviderService = jwtTokenProviderService;
+
     }
 
     @Override
@@ -49,7 +52,8 @@ public class AccessFilter implements Filter
         if (token != null && !token.isEmpty()) {
             if (jwtTokenProvider.validateToken(token)) {
                     try {
-                        currentUserProvider.set(httpServletRequest, jwtTokenProvider.getCurrentUserFromToken(token));
+               //уменьшить количество обращений,добавить проверку на null (при logout добавить ранзакционность)
+                        currentUserProvider.set(httpServletRequest, jwtTokenProviderService.getCurrentUserFromToken(token));
                     } catch (JSONException e) {
                         e.printStackTrace();
                         log.error(e.getMessage());
@@ -58,19 +62,6 @@ public class AccessFilter implements Filter
                     }
                 }
             }
-       /* HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        Cookie[] cookies = ((HttpServletRequest) request).getCookies();
-        String token = null;
-        for (Cookie cookie : cookies){
-            if (cookie.getName().equals(jwtSettingsProvider.getCookieAuthTokenName())){
-                token = cookie.getValue();
-                System.out.println(secretKey);
-                System.out.println("get name " + jwtSettingsProvider.getMailFromToken(token));
-                request.setAttribute("currentUser", jwtSettingsProvider.getMailFromToken(token));
-                //System.out.println("filter token: " + getUsername(token));
-            }
-        }
-        */
         filterChain.doFilter(httpServletRequest, response);
     }
 

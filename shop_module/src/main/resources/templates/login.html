@@ -23,22 +23,27 @@
                                     <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                         <div class="card-body p-4 p-lg-5 text-black">
 
-                                            <form method="post" th:action="@{/auth}">
+                                            <form method="post" th:action="@{/login}" th:object="${user}">
 
                                                 <div class="d-flex align-items-center mb-3 pb-1">
                                                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                                                     <span class="h1 fw-bold mb-0">Logo</span>
                                                 </div>
 
-                                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                                                <div th:if="${msg}">
+                                                    <h5 th:text="${msg}" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 1px;">msg</h5>
+                                                </div>
+                                                <div th:unless="${msg}">
+                                                <h5  class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Войдите в ваш аккаунт</h5>
+                                                </div>
 
                                                 <div class="form-outline mb-4">
-                                                    <input type="email"  id="username" name="username" class="form-control form-control-lg" />
+                                                    <input th:field="*{mail}" type="email"  id="username" name="username" class="form-control form-control-lg" />
                                                     <label class="form-label" for="username">Email address</label>
                                                 </div>
 
                                                 <div class="form-outline mb-4">
-                                                    <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                                                    <input th:field="*{password}" type="password" id="password" name="password" class="form-control form-control-lg" />
                                                     <label class="form-label" for="password">Password</label>
                                                 </div>
 
@@ -47,7 +52,7 @@
                                                 </div>
 
                                                 <a class="small text-muted" href="#!">Forgot password?</a>
-                                                <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
+                                                <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="user/new"
                                                                                                                           style="color: #393f81;">Register here</a></p>
                                                 <a href="#!" class="small text-muted">Terms of use.</a>
                                                 <a href="#!" class="small text-muted">Privacy policy</a>

@@ -1,66 +1,78 @@
 package com.example.shop_module.service;
 
 import com.example.shop_module.config.OrderIntegrationConfig;
-import com.example.shop_module.domain.Order;
-import com.example.shop_module.dto.OrderIntegrationDTO;
-import com.example.shop_module.mq.Producer;
-import com.example.shop_module.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
+import com.example.shop_module.dto.OrderDTO;
+import com.example.shop_module.exceptions.NoConnectedToMQException;
+import com.example.shop_module.exceptions.ResponseMessageException;
+import com.example.shop_module.mq.ProduceOrderModule;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService{
 
-    private final OrderRepository orderRepository;
     private final OrderIntegrationConfig integrationConfig;
+    private final ProduceOrderModule produceOrderModule;
 
-    @Autowired
-    Producer producer;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderIntegrationConfig integrationConfig) {
-        this.orderRepository = orderRepository;
-        this.integrationConfig = integrationConfig;
+    @Override
+    public ResponseEntity createOrder(OrderDTO orderDTO) {
+        try{
+            Long orderId = produceOrderModule.createOrder(orderDTO);
+            return new ResponseEntity(orderId, HttpStatus.OK);
+        }catch (NoConnectedToMQException ncm) {
+            log.error(ncm.getMessage(), ncm.getCause());
+            return new ResponseEntity(ncm.getMessage(), ncm.getStatus());
+        }catch (ResponseMessageException rme) {
+            log.error(rme.getMessage(), rme.getCause());
+            return new ResponseEntity(rme.getMessage(), rme.getStatus());
+        }
+    }
+
+    // TODO: 009 09.10.22 create method
+    @Override
+    public void cancelOrder(Long id) {
+        produceOrderModule.cancelOrder(id);
     }
 
     @Override
-    @Transactional
-    public void saveOrder(Order order) {
-        Order saveOrder = orderRepository.save(order);
-        System.out.println("*****************************************");
-        producer.sendOrder(order);
-        //sendIntegrationNotify(saveOrder);
-    }
-
-
-    //@Transactional
-    public void sendIntegrationNotify(Order order){
-            OrderIntegrationDTO dto = new OrderIntegrationDTO();
-            dto.setUsername(order.getUser().getMail());
-            dto.setAddress(order.getAddress());
-            dto.setOrderId(order.getId());
-            List<OrderIntegrationDTO.OrderDetailsDTO> details = order.getOrders_details().stream()
-                    .map(OrderIntegrationDTO.OrderDetailsDTO::new).collect(Collectors.toList());
-            dto.setDetails(details);
-            System.out.println("********" +
-                    dto +
-                    "*************");
-            Message<OrderIntegrationDTO> message = MessageBuilder.withPayload(dto)
-                    .setHeader("Content-Type", "application/json")
-                    .build();
-
-
-            integrationConfig.getOrdersChannel().send(message);
-
+    public ResponseEntity getOrderById(Long id) {
+        try{
+            OrderDTO orderDTO =  produceOrderModule.getOrderById(id);
+            return new ResponseEntity(orderDTO,HttpStatus.OK);
+        }catch (NoConnectedToMQException nce){
+            log.error(nce.getMessage(), nce.getCause());
+            return new ResponseEntity(nce.getMessage(), nce.getStatus());
+        }catch (ResponseMessageException rme) {
+            log.error(rme.getMessage(), rme.getCause());
+            return new ResponseEntity(rme.getMessage(), rme.getStatus());
+        }catch (Exception e){
+            e.getStackTrace();
+            return new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @Override
-    public Order getOrder(Long id) {
-        return orderRepository.findById(id).orElse(null);
+    public ResponseEntity updateOrder(OrderDTO orderDTO) {
+
+        try{
+            if (produceOrderModule.orderUpdate(orderDTO)){
+                return new ResponseEntity(orderDTO,HttpStatus.OK);
+            }
+            return new ResponseEntity("Неудалось обновить данные", HttpStatus.BAD_REQUEST);
+        }catch (NoConnectedToMQException nce){
+            log.error(nce.getMessage(), nce.getCause());
+            return new ResponseEntity(nce.getMessage(), nce.getStatus());
+        }catch (ResponseMessageException rme) {
+            log.error(rme.getMessage(), rme.getCause());
+            return new ResponseEntity(rme.getMessage(), rme.getStatus());
+        }
+
     }
+
 }

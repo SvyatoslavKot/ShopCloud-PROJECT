@@ -1,5 +1,6 @@
 package com.example.authservice.model;
 
+import com.example.authservice.requestBeans.UserRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,7 +28,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public User(UserRequest userRequest) {
         this.mail = userRequest.getMail();
@@ -35,5 +37,6 @@ public class User {
         this.lastName = userRequest.getLastName();
         this.password = userRequest.getPassword();
         this.status = userRequest.getStatus();
+        this.role = userRequest.getRole();
     }
 }
