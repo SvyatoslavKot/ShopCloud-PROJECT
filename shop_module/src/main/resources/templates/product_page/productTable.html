@@ -32,6 +32,10 @@
 
 
     <!----------- content ---------- -->
+    <div th:if="${msg}">
+        <h4 th:text="${msg}" class="text-center text-danger">msg</h4>
+    </div>
+
     <table id="table" class="table table-dark table-hover mt-5 col-10">
         <thead>
         <tr>
@@ -44,7 +48,6 @@
         <tr th:each="product : ${products}" >
             <td th:text="${product.title}">title</td>
             <td th:text="${product.price}" >price</td>
-            <td><a th:href="@{/product/{id}/bucket(id=${product.id})}">Add to bucket</a></td>
         </tr>
     </table>
 </main>

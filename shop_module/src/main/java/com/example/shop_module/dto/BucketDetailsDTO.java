@@ -1,6 +1,5 @@
 package com.example.shop_module.dto;
 
-import com.example.shop_module.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +18,7 @@ public class BucketDetailsDTO {
     private BigDecimal amount;
     private Double sum;
 
+    /*
     public BucketDetailsDTO(Product product){
         this.title = product.getTitle();
         this.productId = product.getId();
@@ -26,5 +26,7 @@ public class BucketDetailsDTO {
         this.amount = new BigDecimal(1.0);
         this.sum = Double.valueOf(product.getPrice().toString());
     }
+
+     */
 
 }

@@ -1,19 +1,17 @@
-package com.example.productmodule.dto;
+package com.example.order_module.dto;
 
-import com.example.productmodule.domain.Category;
+import com.example.order_module.domain.Category;
 import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-@ToString
 public class ProductDTO implements Serializable {
     private Long id;
     private  String title;

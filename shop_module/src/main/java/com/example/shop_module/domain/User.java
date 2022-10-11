@@ -1,19 +1,20 @@
 package com.example.shop_module.domain;
 
+import com.example.shop_module.domain.enums.Role;
+import com.example.shop_module.domain.enums.Status;
 import com.example.shop_module.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
+//@Table(name = "users")
 @JsonIgnoreProperties
 public class User implements Serializable {
 
@@ -32,9 +33,9 @@ public class User implements Serializable {
     private Status status;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "bucket_id")
-    private Bucket bucket;
+    //@OneToOne(cascade = CascadeType.REMOVE)
+    //@JoinColumn(name = "bucket_id")
+    //private Bucket bucket;
     private String address;
 
 /*
@@ -43,9 +44,9 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
 
- */@Transient
+ @Transient
     private List<Product> favoriteProductList;
-
+*/
     public User(UserDTO dto) {
         this.mail = dto.getMail();
         this.name = dto.getFirstName();
@@ -63,7 +64,6 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", mail='" + mail + '\'' +
                 ", role=" + role +
-                ", bucket=" + bucket +
                 '}';
     }
 }

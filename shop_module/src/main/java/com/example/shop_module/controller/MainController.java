@@ -1,9 +1,6 @@
 package com.example.shop_module.controller;
 
 import com.example.shop_module.aopService.MeasureMethod;
-import com.example.shop_module.domain.Bucket;
-import com.example.shop_module.domain.Role;
-import com.example.shop_module.domain.User;
 import com.example.shop_module.dto.UserDTO;
 import com.example.shop_module.exceptions.LoginClientException;
 import com.example.shop_module.mq.ProduserAuthModule;
@@ -13,9 +10,6 @@ import com.example.shop_module.service.SessionObjectHolder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -57,6 +58,18 @@ public class ShopModuleListener {
         Integer productId = (Integer) requestMap.get("productId");
         productService.removeFromBucket(Long.valueOf(productId),mail);
     }
+
+    @RabbitListener(queues = "queue-prGetAll")
+    public List<ProductDTO> getAll (@Payload String msg) {
+        return productService.getAll();
+    }
+
+    @RabbitListener(queues = "queue-prAdd")
+    public void productAdd (@Payload ProductDTO dto) {
+        System.out.println("dto -> " + dto);
+        productService.addProduct(dto);
+    }
+
 
     @RabbitListener(queues = "queue-prConfirmOrder")
     @Transactional

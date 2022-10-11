@@ -1,4 +1,4 @@
-package com.example.shop_module.domain;
+package com.example.shop_module.domain.enums;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

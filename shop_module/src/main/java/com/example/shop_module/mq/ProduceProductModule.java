@@ -4,6 +4,7 @@ package com.example.shop_module.mq;
 import com.example.shop_module.dto.BucketDTO;
 import com.example.shop_module.dto.OrderDTO;
 import com.example.shop_module.dto.ProductDTO;
+import com.example.shop_module.dto.UserDTO;
 import com.example.shop_module.exceptions.NoConnectedToMQException;
 import com.example.shop_module.exceptions.ResponseMessageException;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -114,6 +116,57 @@ public class ProduceProductModule {
         msgMap.put("productId" , productId);
         msgMap.put("mail" , mail);
         rabbitTemplate.convertAndSend(settings.getRoutingKeyProductRemoveFromBucket(), msgMap);
+    }
+
+
+    @Bean
+    public Queue queueProductGetAll() {
+        return new Queue(settings.getQueueProductGetAll(), false);
+    }
+    @Bean
+    public TopicExchange topicExchangeProductGetAll(){
+        return new TopicExchange(settings.getExchangeProductGetAll());
+    }
+    @Bean
+    public Binding bindingProductGetAll(Queue queueProductGetAll, TopicExchange topicExchangeProductGetAll){
+        return BindingBuilder.bind(queueProductGetAll).to(topicExchangeProductGetAll).with(settings.getRoutingKeyProductGetAll());
+    }
+    public List<ProductDTO> getAll() {
+        rabbitTemplate.setExchange(settings.getExchangeProductGetAll());
+        String msg = "msg";
+        List<ProductDTO> responseList = rabbitTemplate.convertSendAndReceiveAsType(settings.getRoutingKeyProductGetAll(),msg, ParameterizedTypeReference.forType(List.class));
+        if (responseList != null){
+            return responseList;
+        }
+        throw new NoConnectedToMQException();
+    }
+
+
+    @Bean
+    public Queue queueProductAdd() {
+        return new Queue(settings.getQueueProductAdd());
+    }
+    @Bean
+    public Queue queueForOrdersProductAdd() {
+        return new Queue(settings.getQueueProductAddForOrder());
+    }
+    @Bean
+    public FanoutExchange fanoutExchangeProductAdd() {
+        return new FanoutExchange(settings.getExchangeProductAdd());
+    }
+    @Bean
+    public Binding bindingProducts() {
+        return BindingBuilder.bind(queueProductAdd()).to(fanoutExchangeProductAdd());
+    }
+    @Bean
+    public Binding bindingOrders() {
+        return BindingBuilder.bind(queueForOrdersProductAdd()).to(fanoutExchangeProductAdd());
+    }
+
+    public void addProduct(ProductDTO dto){
+        rabbitTemplate.setExchange(settings.getExchangeProductAdd());
+        System.out.println("dto ->" + dto);
+        rabbitTemplate.convertAndSend( dto);
     }
 
 

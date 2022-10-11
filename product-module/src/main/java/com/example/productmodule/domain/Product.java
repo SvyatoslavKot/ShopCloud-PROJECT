@@ -29,8 +29,6 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
-    public Product(Long id, String title, BigDecimal price, ArrayList<Category> categories) {
-    }
 
     @Override
     public String toString() {

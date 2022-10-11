@@ -1,6 +1,7 @@
 package com.example.shop_module.service.soap;
 
 import com.example.shop_module.dto.ProductDTO;
+import com.example.shop_module.mq.ProduceProductModule;
 import com.example.shop_module.service.ProductService;
 
 import com.example.shop_module.xsd.product.GetProductRequest;
@@ -15,6 +16,7 @@ public class ProductEndpoint {
     public static final String NAMESPACE_URL = "http://example.com/shop_module/ws/product";
 
     private ProductService productService;
+    private ProduceProductModule produceProductModule;
 
     @Autowired
     public ProductEndpoint(ProductService productService) {
@@ -25,7 +27,7 @@ public class ProductEndpoint {
     @ResponsePayload
     public GetProductResponse getProductWS(@RequestPayload GetProductRequest request) {
         GetProductResponse response = new GetProductResponse();
-        productService.getAll()
+        produceProductModule.getAll()
                 .forEach(productDTO -> response.getProducts().add(createProductWs(productDTO)));
         return response;
     }

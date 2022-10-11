@@ -20,9 +20,4 @@ public class ProductDTO implements Serializable {
     private BigDecimal price;
     private List<Category> categories;
 
-    public ProductDTO(Long id, String title, BigDecimal price) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-    }
 }

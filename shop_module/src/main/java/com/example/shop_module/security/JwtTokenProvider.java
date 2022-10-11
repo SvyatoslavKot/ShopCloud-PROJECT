@@ -1,23 +1,17 @@
 package com.example.shop_module.security;
 
-import com.example.shop_module.domain.Role;
 import com.example.shop_module.domain.User;
-import com.example.shop_module.mq.ProducerShopClient;
-import com.example.shop_module.repository.UserRepository;
 import io.jsonwebtoken.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 
 @Component

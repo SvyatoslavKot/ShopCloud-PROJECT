@@ -45,13 +45,7 @@ public class ProductServiceImpl implements ProductService {
                                      Optional<BigDecimal> max,
                                      Optional<String> sortField,
                                      Optional<String> sortOrder){
-        /*
-        if (!nameFilter.contains("%")){
 
-            nameFilter = String.join("","%", nameFilter,"%");
-        }
-        return productRepository.findProdByTitleLike(nameFilter);
-        */
         Specification<Product> specification = Specification.where(null);
         if(nameFilter.isPresent()){
             specification = specification.and(ProductSpecification.titleLike(nameFilter.get()));
@@ -97,20 +91,14 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    @Transactional
     public void addProduct(ProductDTO productDTO) {
         Product product = new Product(
                 productDTO.getId(),
                 productDTO.getTitle(),
                 productDTO.getPrice(),
                 new ArrayList<Category>());
-
-        Product savedProduct = productRepository.save(product);
-        ProductDTO dto = new ProductDTO().builder()
-                .id(savedProduct.getId())
-                .price(savedProduct.getPrice())
-                .title(savedProduct.getTitle()).build();
-        //templateMsg.convertAndSend("/topic/products", dto);
+        System.out.println(product);
+        productRepository.save(product);
     }
 
     @Override

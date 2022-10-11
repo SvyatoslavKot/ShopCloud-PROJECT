@@ -5,8 +5,10 @@ import com.example.order_module.domain.DeliveryType;
 import com.example.order_module.domain.Order;
 import com.example.order_module.dto.OrderDTO;
 import com.example.order_module.dto.OrderMapper;
+import com.example.order_module.dto.ProductDTO;
 import com.example.order_module.repository.OrderRepository;
 import com.example.order_module.service.OrderService;
+import com.example.order_module.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -21,25 +23,29 @@ import java.util.Map;
 public class ShopModuleListener {
 
     private final OrderService orderService;
+    private final ProductService productService;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper = new OrderMapper();
 
-    public ShopModuleListener(OrderService orderService, OrderRepository orderRepository) {
+    public ShopModuleListener(OrderService orderService, ProductService productService, OrderRepository orderRepository) {
         this.orderService = orderService;
+        this.productService = productService;
         this.orderRepository = orderRepository;
     }
 
     @RabbitListener(queues = "queue-orderCreate")
     @Transactional
-    public Map<String, Object> consume2(@Payload OrderDTO dto) {
+    public Map<String, Object> orderCreate(@Payload OrderDTO dto) {
         Map<String,Object> responseMap = new HashMap<>();
         try{
             Order order = orderService.createOrder(dto);
             responseMap.put("orderId", order.getId());
+            log.info("Create Order ->" + order);
             return responseMap;
         }catch (Exception e) {
             log.error(e.getMessage(), e.getCause());
             responseMap.put("exception" , e.getMessage());
+            log.info("Exception createOrder ->" + e.getMessage());
             return responseMap;
         }
     }
@@ -51,19 +57,22 @@ public class ShopModuleListener {
             try {
                 Order order = orderRepository.findById(id).get();
                 OrderDTO orderDTO = orderMapper.toOrderDto(order);
+                log.info("return Order by id -> " + orderDTO );
                 return orderDTO;
             } catch (Exception e) {
                 log.error(e.getMessage(), e.getCause());
                 e.printStackTrace();
+                log.info("Exception getOrderById ->" + e.getMessage());
                 return new OrderDTO();
             }
         }
+        log.info("Not found Order with id -> " + id);
         return new OrderDTO();
     }
 
     @RabbitListener(queues = "queue-orderUpdate")
     @Transactional
-    public Map<String, Object> getOrderById(@Payload OrderDTO dto) {
+    public Map<String, Object> updateOrder(@Payload OrderDTO dto) {
         System.out.println(dto);
         Map<String , Object> responseMap = new HashMap<>();
         if (orderRepository.findById(dto.getId()).isPresent()){
@@ -96,16 +105,25 @@ public class ShopModuleListener {
                 orderRepository.save(order);
                 responseMap.put("OK", "success");
                 System.out.println(order);
+                log.info("Update Order -> " + order );
                 return responseMap;
             }catch (Exception e) {
                 e.printStackTrace();
                 log.error(e.getMessage(), e.getCause());
                 responseMap.put("exception", e.getMessage());
+                log.info("GetOrderById exception.");
                 return responseMap;
             }
 
         }
         responseMap.put("exception", "Order with id " + dto.getId() + " not found.");
+        log.info("Order with id  " + dto.getId() + " not found.");
         return responseMap;
+    }
+
+    @RabbitListener(queues = "queue-prAddForOrder")
+    public void productAdd (@Payload ProductDTO dto) {
+        productService.addProduct(dto);
+        log.info("Product -> " + dto + " add.");
     }
 }

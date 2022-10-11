@@ -1,6 +1,5 @@
 package com.example.shop_module.service;
 
-import com.example.shop_module.domain.Role;
 import com.example.shop_module.domain.User;
 import com.example.shop_module.dto.UserDTO;
 import com.example.shop_module.exceptions.ResponseMessageException;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service

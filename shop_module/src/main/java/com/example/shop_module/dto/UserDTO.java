@@ -1,7 +1,6 @@
 package com.example.shop_module.dto;
 
-import com.example.shop_module.domain.Role;
-import com.example.shop_module.domain.Status;
+import com.example.shop_module.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

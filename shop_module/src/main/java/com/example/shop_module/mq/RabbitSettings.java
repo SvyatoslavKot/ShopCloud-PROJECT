@@ -52,6 +52,22 @@ public class RabbitSettings {
     @Value("${rabbitmq.queue.productConfirmOrder}")
     private String queueProductConfirmOrder;
 
+    @Value("${rabbitmq.exchange.productGetAll}")
+    private String exchangeProductGetAll;
+    @Value("${rabbitmq.routingkey.productGetAll}")
+    private String routingKeyProductGetAll;
+    @Value("${rabbitmq.queue.productGetAll}")
+    private String queueProductGetAll;
+
+    @Value("${rabbitmq.exchange.productAdd}")
+    private String exchangeProductAdd;
+    @Value("${rabbitmq.routingkey.productAdd}")
+    private String routingKeyProductAdd;
+    @Value("${rabbitmq.queue.productAdd}")
+    private String queueProductAdd;
+    @Value("${rabbitmq.queue.productAddForOrder}")
+    private String queueProductAddForOrder;
+
     @Value("${rabbitmq.exchange.orderCreate}")
     private String exchangeOrderCreate;
     @Value("${rabbitmq.routingkey.orderCreate}")

@@ -1,24 +1,16 @@
 package com.example.shop_module.controller;
 
 import com.example.shop_module.aopService.MeasureMethod;
-import com.example.shop_module.domain.Product;
 import com.example.shop_module.dto.ProductDTO;
-import com.example.shop_module.exceptions.NoConnectedToMQException;
-import com.example.shop_module.exceptions.ResponseMessageException;
-import com.example.shop_module.mapper.ProductDtoMapper;
-import com.example.shop_module.mq.ProduceProductModule;
 import com.example.shop_module.service.ProductService;
 import com.example.shop_module.service.SessionObjectHolder;
 import com.example.shop_module.wrapper.PageableResponse;
-import org.json.JSONException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
+import lombok.AllArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 
 import java.math.BigDecimal;
@@ -27,23 +19,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
 
     private final ProductService productService;
     private final SessionObjectHolder sessionObjectHolder;
-    private final RestTemplate restTemplate;
-    private ProductDtoMapper productDtoMapper = new ProductDtoMapper();
-    private ProduceProductModule produceProductModule;
-
-    private static final String PRODUCT_URL= "http://localhost:8083/api/v1/product";
-
-    public ProductController(ProduceProductModule produceProductModule, ProductService productService, SessionObjectHolder sessionObjectHolder, RestTemplate restTemplate) {
-        this.productService = productService;
-        this.sessionObjectHolder = sessionObjectHolder;
-        this.restTemplate = restTemplate;
-        this.produceProductModule = produceProductModule;
-    }
 
     @GetMapping("/list")
     public String getByParam(Model model,
@@ -55,15 +36,22 @@ public class ProductController {
                              @RequestParam(name = "sortField", required = false) Optional<String> sortField,
                              @RequestParam(name = "sortOrder", required = false) Optional<String> sortOrder){
 
-        ResponseEntity<PageableResponse<Product>> exchangeProductList = restTemplate//вынести в service
-                .exchange(PRODUCT_URL + "/list?page="+page.orElse(1)  +"&size="+size.orElse(4)
-                                +"&titleFilter="+titleFilter.orElse("")   +"&min="+min.orElse(BigDecimal.valueOf(0))
-                                +"&max="+max.orElse(BigDecimal.valueOf(99999*9)),
-                        HttpMethod.GET, null, new ParameterizedTypeReference<PageableResponse<Product>>() {});
-        List<Product> products = exchangeProductList.getBody().getContent();
-        model.addAttribute("products",exchangeProductList.getBody());
-        model.addAttribute("list", products);
+        var responseProducts = productService.getByParam(page.orElse(1),size.orElse(4),titleFilter.orElse(""),
+                min.orElse(BigDecimal.valueOf(0)),max.orElse(BigDecimal.valueOf(99999*9)));
+
+        if (responseProducts.getStatusCode().equals(HttpStatus.OK)){
+            var products = (ResponseEntity<PageableResponse<ProductDTO>>) responseProducts.getBody();
+            var productList = products.getBody().getContent();
+            System.out.println(products);
+
+            model.addAttribute("list", productList);
+            model.addAttribute("products",products.getBody());
+            return "product_page/products";
+        }
+        var exMsg = (String) responseProducts.getBody();
+        model.addAttribute("msg", exMsg);
         return "product_page/products";
+
     }
 
 
@@ -71,9 +59,16 @@ public class ProductController {
     @GetMapping
     public String list (Model model){
         sessionObjectHolder.addClick();
-        List<ProductDTO> list = productService.getAll();
-        model.addAttribute("products", list);
-        return "product_page/productTable";
+                var responseEntity = productService.getAll();
+                if (responseEntity.getStatusCode().equals(HttpStatus.OK)){
+                    var productList = (List<ProductDTO>) responseEntity.getBody();
+                    model.addAttribute("products", productList);
+                    return "product_page/productTable";
+                }
+                var exMsg = responseEntity.getBody().toString().split("\"")[1];
+                model.addAttribute("msg", exMsg);
+                return "product_page/productTable";
+
     }
 
 
@@ -83,11 +78,11 @@ public class ProductController {
             if (response.getStatusCode().equals(HttpStatus.OK)) {
                 System.out.println("response ok ->" + response.getBody());
                 ProductDTO dto = (ProductDTO) response.getBody();
-                model.addAttribute("product", productDtoMapper.productFromDTO(dto));
+                model.addAttribute("product", dto);
                 return "product_page/product_item";
             }
             String exceptionMsg = response.getBody().toString().split("\"")[1];
-            model.addAttribute("product", productDtoMapper.productFromDTO(new ProductDTO()));
+            model.addAttribute("product", new ProductDTO());
             model.addAttribute("msg", exceptionMsg);
             return "product_page/product_item";
         }
