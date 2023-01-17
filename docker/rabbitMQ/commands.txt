@@ -1,0 +1,4 @@
+docker exec -it rabbitMq /bin/bash --> доступ внутрь запущеного образа
+rabbitmqctl add_user userok password --> добавить нового пользователя
+rabbitmqctl set_user_tags userok administrator --> выдать пользователю права администратора
+rabbitmqctl set_permissions -p / userok ".*" ".*" ".*" --> выдать разрешения на чтения, запись , изменения конфигурации

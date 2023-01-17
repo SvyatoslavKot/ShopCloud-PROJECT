@@ -1,0 +1,70 @@
+syntax = "proto3";
+package com.example.grpc;
+
+message MessageId {
+  int64 id = 1;
+}
+message MessageFindAll {
+}
+message MessageRequest {
+  string message = 1;
+}
+message MessageAddToBucket {
+  int64 productId = 1;
+  string mail = 2;
+}
+message MessageRemoveFromBucket {
+  int64 productId = 1;
+  string mail = 2;
+}
+message MessageFindAllWithParam {
+      int32 page = 1;
+      int32 size = 2;
+      string title = 3;
+      string min = 4;
+      string max = 5;
+}
+
+
+message ProtoProduct {
+  int64 id = 1;
+  string title = 2;
+  string price = 3;
+  int64 count_in_stock = 4;
+  ProtoListOfCategory categories = 5;
+}
+message  ProtoCategory {
+  int64 id = 1;
+  string title = 2;
+}
+
+message ProtoListOfCategory {
+  repeated ProtoCategory category = 1;
+}
+message ProtoListOfProduct {
+  repeated ProtoProduct product = 1;
+}
+
+message ProtoPageableResponse{
+  bool first = 1;
+  bool last = 2;
+  int32 totalPages = 3;
+  int32 numberOfElements = 4;
+  ProtoListOfProduct content = 5;
+  int32 number = 6;
+  int32 size = 7;
+  int32 totalElements = 8;
+}
+
+
+
+service ProductService{
+  rpc getById(MessageId) returns (ProtoProduct);
+  rpc getAllProduct(MessageFindAll) returns (ProtoListOfProduct);
+  rpc addProduct(ProtoProduct) returns (MessageRequest);
+  rpc addProductToBucket(MessageAddToBucket) returns (MessageRequest);
+  rpc removeProductFromBucket(MessageRemoveFromBucket) returns (MessageRequest);
+  rpc getAllByParam(MessageFindAllWithParam) returns (ProtoPageableResponse);
+
+}
+

@@ -1,0 +1,41 @@
+server:
+  port:8082
+grpc:
+  port: 9071
+
+spring:
+  kafka:
+    bootstrap-servers: 90.156.225.74:29092
+    consumer:
+      auto-offset-reset: earliest
+    producer:
+      acks: 1
+    admin:
+      client-id: 2
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.99.100:5432/client_module
+    username: postgres
+    password: postgres
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  rabbitmq:
+    host: 192.168.99.100
+    port: 5672
+    username: root
+    password: root
+
+    exchange:
+      newclient: topic-exchange-authnewclient
+    routing-key:
+      authNewClient: routingKey-auth-new-client
+    queue:
+      shopclientUpdateClient: queue-shopclientUpdateClient
+      shopclientNew: queue-shopclientNew
+      authNewClient: queue-auth-new-client
+
+

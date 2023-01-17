@@ -1,0 +1,121 @@
+buildscript {
+	ext {
+		protobufVersion = '3.19.1'
+		protobufPluginVersion = '0.8.18'
+		grpcVersion = '1.51.0'
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'org.flywaydb.flyway'  version '8.5.12'
+	id 'com.google.protobuf' version "${protobufPluginVersion}"
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2021.0.3")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
+
+	//kafka
+	implementation 'org.springframework.kafka:spring-kafka:2.9.0'
+
+
+	//Rabbit
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	//implementation group: 'org.springframework.amqp', name: 'spring-rabbit'
+
+
+
+	implementation group: 'org.json', name: 'json', version: '20160810'
+    implementation 'junit:junit:4.13.1'
+	implementation 'org.testng:testng:7.1.0'
+
+	//driver
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//migration
+	implementation 'org.flywaydb:flyway-core'
+
+	//gRPC
+	runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+	implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+	implementation group: 'io.github.lognet', name: 'grpc-spring-boot-starter', version: '4.9.0'
+	implementation group: 'io.grpc', name: 'grpc-stub', version: '1.51.0'
+
+
+
+
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+flyway{
+	url = 'jdbc:postgresql://90.156.225.74:5432/product_module'
+	user = 'root'
+	password = 'postgres-e-shop'
+	schemas = ['public']
+}
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:${protobufVersion}"
+	}
+	generatedFilesBaseDir = "$projectDir/src/main/java/proto/generated"
+	clean {
+		delete generatedFilesBaseDir
+	}
+	plugins {
+		grpc {
+			artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+		}
+	}
+	generateProtoTasks {
+		all()*.plugins {
+			grpc {}
+		}
+	}
+}
+
+
+
+

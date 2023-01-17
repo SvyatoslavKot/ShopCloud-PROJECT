@@ -7,39 +7,29 @@
         <compositeConfiguration>
           <compositeBuild compositeDefinitionSource="SCRIPT">
             <builds>
-              <build path="$PROJECT_DIR$/eurika-Server" name="eurika-Server">
+              <build path="$PROJECT_DIR$/Auth-MODULE" name="Auth-MODULE">
                 <projects>
-                  <project path="$PROJECT_DIR$/eurika-Server" />
+                  <project path="$PROJECT_DIR$/Auth-MODULE" />
                 </projects>
               </build>
-              <build path="$PROJECT_DIR$/eurika-Client" name="eurika-Client">
+              <build path="$PROJECT_DIR$/Shop-MODULE" name="Shop-MODULE">
                 <projects>
-                  <project path="$PROJECT_DIR$/eurika-Client" />
+                  <project path="$PROJECT_DIR$/Shop-MODULE" />
                 </projects>
               </build>
-              <build path="$PROJECT_DIR$/eureka-Client-2" name="eureka-Client-2">
+              <build path="$PROJECT_DIR$/Product-MODULE" name="Product-MODULE">
                 <projects>
-                  <project path="$PROJECT_DIR$/eureka-Client-2" />
+                  <project path="$PROJECT_DIR$/Product-MODULE" />
                 </projects>
               </build>
-              <build path="$PROJECT_DIR$/auth-service" name="auth-service">
+              <build path="$PROJECT_DIR$/ShopClient-MODULE" name="ShopClient-MODULE">
                 <projects>
-                  <project path="$PROJECT_DIR$/auth-service" />
+                  <project path="$PROJECT_DIR$/ShopClient-MODULE" />
                 </projects>
               </build>
-              <build path="$PROJECT_DIR$/shop_module" name="shop_module">
+              <build path="$PROJECT_DIR$/Order-MODULE" name="Order-MODULE">
                 <projects>
-                  <project path="$PROJECT_DIR$/shop_module" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/product-module" name="product-module">
-                <projects>
-                  <project path="$PROJECT_DIR$/product-module" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/api-GeteWay" name="api-GeteWay">
-                <projects>
-                  <project path="$PROJECT_DIR$/api-GeteWay" />
+                  <project path="$PROJECT_DIR$/Order-MODULE" />
                 </projects>
               </build>
             </builds>
@@ -51,93 +41,51 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/api-GeteWay" />
-            <option value="$PROJECT_DIR$/auth-service" />
-            <option value="$PROJECT_DIR$/eureka-Client-2" />
-            <option value="$PROJECT_DIR$/eurika-Client" />
-            <option value="$PROJECT_DIR$/eurika-Server" />
-            <option value="$PROJECT_DIR$/product-module" />
-            <option value="$PROJECT_DIR$/shop_module" />
+            <option value="$PROJECT_DIR$/Auth-MODULE" />
+            <option value="$PROJECT_DIR$/Order-MODULE" />
+            <option value="$PROJECT_DIR$/Product-MODULE" />
+            <option value="$PROJECT_DIR$/Shop-MODULE" />
+            <option value="$PROJECT_DIR$/ShopClient-MODULE" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/Shopclient_module" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Auth-MODULE" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/Shopclient_module" />
+            <option value="$PROJECT_DIR$/Auth-MODULE" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/api-GeteWay/api-GateWay" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Order-MODULE" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/api-GeteWay/api-GateWay" />
+            <option value="$PROJECT_DIR$/Order-MODULE" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/auth-service" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Shop-MODULE" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/auth-service" />
+            <option value="$PROJECT_DIR$/Shop-MODULE" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/eureka-Client-2" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/ShopClient-MODULE" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/eureka-Client-2" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/eurika-Client" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/eurika-Client" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/eurika-Server" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/eurika-Server" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/order_module" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/order_module" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/product-module" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/product-module" />
+            <option value="$PROJECT_DIR$/ShopClient-MODULE" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -148,26 +96,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/rabbit" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/shop_module" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/shop_module" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/spring-integration" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Program Files/Android/gradle-6.7.1" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/spring-integration" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,15 +1,12 @@
-rootProject.name = 'ShopCloud'
+rootProject.name = 'ShopCloud-PROJECT'
 
-includeBuild 'eurika-Server'
-includeBuild 'eurika-Client'
-includeBuild 'eureka-Client-2'
-includeBuild 'auth-service'
-includeBuild 'shop_module'
-includeBuild 'product-module'
-
+includeBuild 'Auth-MODULE'
+includeBuild 'Shop-MODULE'
+includeBuild 'Product-MODULE'
+includeBuild 'ShopClient-MODULE'
+includeBuild 'Order-MODULE'
 
 
 
-includeBuild 'api-GeteWay'
 
 

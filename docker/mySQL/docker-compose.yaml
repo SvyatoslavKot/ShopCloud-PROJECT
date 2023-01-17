@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  mySQL:
+    image:          mysql:5.7.22
+    container_name: mySql
+    restart:        unless-stopped
+
+    environment:
+      MYSQL_DATABASE:  test
+      MYSQL_ROOT_USERNAME:  root
+      MYSQL_ROOT_PASSWORD:  root
+      SERVISE_TAGS:    dev
+      SERVICE_NAME:    mysql
+
+    volumes:
+      - $HOME/docker/volumes/mysql/shopCloud:/var/lib/mqsql
+    ports:
+      - '192.168.99.100:3306:3306'

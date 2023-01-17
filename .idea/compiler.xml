@@ -8,24 +8,62 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="order_module.main" />
+        <module name="Product-MODULE.main" />
+        <module name="Auth-MODULE.main" />
+        <module name="Order-MODULE.main" />
+        <module name="ShopClient-MODULE.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok-mapstruct-binding/0.2.0/2f1cf9ced7b720ba4996c942b816669e63f0fa4f/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
+        </processorPath>
+        <module name="Shop-MODULE.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.6">
+      <module name="api-GateWay" target="11" />
+      <module name="api-GateWay.main" target="11" />
+      <module name="api-GateWay.test" target="11" />
+      <module name="auth-service" target="11" />
+      <module name="auth-service.main" target="11" />
+      <module name="auth-service.test" target="11" />
       <module name="com.example.eurika-Client.main" target="11" />
       <module name="com.example.eurika-Client.test" target="11" />
+      <module name="com.example.product-module.main" target="11" />
+      <module name="com.example.product-module.test" target="11" />
+      <module name="eureka-Client-2" target="11" />
       <module name="eureka-client-2" target="11" />
-      <module name="product-module.main" target="11" />
-      <module name="product-module.test" target="11" />
+      <module name="eureka-Client-2.main" target="11" />
+      <module name="eureka-Client-2.test" target="11" />
+      <module name="eurika-Client" target="11" />
+      <module name="eurika-Client.main" target="11" />
+      <module name="eurika-Client.test" target="11" />
+      <module name="eurika-Server" target="11" />
+      <module name="eurika-Server.main" target="11" />
+      <module name="eurika-Server.test" target="11" />
+      <module name="order_module" target="11" />
+      <module name="order_module.main" target="11" />
+      <module name="order_module.test" target="11" />
       <module name="shop" target="11" />
       <module name="shop-module" target="11" />
       <module name="shop-module.main" target="11" />
       <module name="shop-module.test" target="11" />
       <module name="shop.main" target="11" />
       <module name="shop.test" target="11" />
+      <module name="shop_module" target="11" />
+      <module name="shop_module.main" target="11" />
+      <module name="shop_module.test" target="11" />
+      <module name="Shopclient_module" target="11" />
+      <module name="Shopclient_module.main" target="11" />
+      <module name="Shopclient_module.test" target="11" />
       <module name="shopmodule" target="11" />
       <module name="shopmodule.main" target="11" />
       <module name="shopmodule.test" target="11" />
+      <module name="spring-integration" target="11" />
+      <module name="spring-integration.main" target="11" />
+      <module name="spring-integration.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
