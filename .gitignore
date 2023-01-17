@@ -1,4 +1,8 @@
-!.idea
+.idea
 !.gitignore
 !.gradle
 !rabbit
+# Project exclude paths
+/ShopClient-MODULE/build/
+/ShopClient-MODULE/build/classes/java/main/
+/ShopClient-MODULE/build/classes/java/test/

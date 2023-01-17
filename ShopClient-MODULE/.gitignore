@@ -1,9 +1,9 @@
 HELP.md
-docker-compose.yaml
-.env
+!docker-compose.yaml
+!.env
 .gradle
-build/
-.gitignore
+gibuild/
+!.gitignore
 **/log
 
 !gradle/wrapper/gradle-wrapper.jar
