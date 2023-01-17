@@ -1,4 +1,5 @@
 .idea
+!testDir
 !.gitignore
 !.gradle
 !rabbit
