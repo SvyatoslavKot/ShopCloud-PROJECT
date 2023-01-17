@@ -1,6 +1,4 @@
 version: '3'
-
-
 services:
   shop-module:
     image: svyatoslavkotov/e-shop-micro_client-module:v1.3

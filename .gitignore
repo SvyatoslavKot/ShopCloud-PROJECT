@@ -1,9 +1,10 @@
 .idea
+.env
+docker-compose.yaml
 testDirrr
-!testDir
-!.gitignore
-!.gradle
-!rabbit
+.gitignore
+.gradle
+rabbit
 # Project exclude paths
 /ShopClient-MODULE/build/
 /ShopClient-MODULE/build/classes/java/main/
