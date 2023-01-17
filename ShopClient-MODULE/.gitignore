@@ -1,11 +1,13 @@
 HELP.md
 /docker/docker-compose.yaml
-ENV
-*.log
 .gradle/
 build/
-.gitignore
-**/log
+ENV
+
+*.logs
+
+/src/main/resources/log/all.logs
+*.log.gz
 
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

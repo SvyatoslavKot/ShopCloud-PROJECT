@@ -309,3 +309,4 @@
 2023-01-16 13:42:58,839 DEBUG com.example.shopclient_module.app.service.ClientServiceImplTest [Test worker] Running with Spring Boot v2.7.3, Spring v5.3.22
 2023-01-16 13:42:58,840 INFO com.example.shopclient_module.app.service.ClientServiceImplTest [Test worker] No active profile set, falling back to 1 default profile: "default"
 2023-01-16 13:43:13,152 INFO com.example.shopclient_module.app.service.ClientServiceImplTest [Test worker] Started ClientServiceImplTest in 14.933 seconds (JVM running for 18.794)
+sss
