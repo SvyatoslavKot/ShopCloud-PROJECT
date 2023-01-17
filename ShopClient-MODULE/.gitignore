@@ -1,8 +1,9 @@
 HELP.md
-docker-compose.yaml
-.env
-.gradle
-gibuild/
+/docker/docker-compose.yaml
+ENV
+*.log
+.gradle/
+build/
 .gitignore
 **/log
 
