@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>Title</title>
+</head>
+<body>
+<nav th:insert="include/navBar :: navbar"></nav>
+
+<main class="container col-10">
+
+<div th:if="${msg}">
+    <h3 th:text="${msg}" >msg</h3>
+</div>
+
+    <h3 th:text="${order.sum}"> sum</h3>
+</main>
+</body>
+</html>

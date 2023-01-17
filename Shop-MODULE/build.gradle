@@ -1,0 +1,153 @@
+buildscript {
+    ext {
+        protobufVersion = '3.19.1'
+        protobufPluginVersion = '0.8.18'
+        grpcVersion = '1.51.0'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'org.flywaydb.flyway'  version '8.5.12'
+    id 'com.google.protobuf' version "${protobufPluginVersion}"
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    jaxb
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    jaxbTargetDir = file("src/main/java/com/example/shop_module/xsd")
+}
+
+
+ext {
+    set('springCloudVersion', "2021.0.3")
+}
+
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation group: 'org.webjars', name: 'sockjs-client', version: '1.5.1'
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.4'
+    implementation group: 'org.webjars', name: 'jquery',version: '3.6.1'
+    implementation group: 'org.webjars', name: 'webjars-locator', version: '0.45'
+
+    implementation group: 'org.json', name: 'json', version: '20090211'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation group: 'wsdl4j', name: 'wsdl4j'
+
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'junit:junit:4.13.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.3.Final'
+    implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.3.Final'
+
+
+    runtimeOnly group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
+
+    //gRPC
+    runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+
+    annotationProcessor 'org.projectlombok:lombok'
+    jaxb (
+            'com.sun.xml.bind:jaxb-xjc:4.0.1',
+            'com.sun.xml.bind:jaxb-impl:4.0.1',
+            'org.glassfish.jaxb:jaxb-runtime:4.0.0'
+    )
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+task jaxb {
+    System.setProperty('javax.xml.accessExternalSchema', 'all')
+    def jaxbTargetDir = file("src/main/java/com/example/shop_module/xsd")
+    doLast {
+        jaxbTargetDir.mkdirs()
+        ant.taskdef(
+               name: 'xjc',
+                classname: 'com.sun.tools.xjc.XJCTask',
+               classpath: configurations.jaxb.asPath
+        )
+        ant.jaxbTargetDir = jaxbTargetDir
+        ant.xjc(
+                destdir: '${jaxbTargetDir}',
+                package: 'greting',
+                schema: 'src/main/resources/ws/greeting.xsd'
+        )
+        ant.xjc(
+                destdir: '${jaxbTargetDir}',
+                package: 'product',
+                schema: 'src/main/resources/ws/product.xsd'
+        )
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    generatedFilesBaseDir = "$projectDir/src/main/java/proto/generated"
+    clean {
+        delete generatedFilesBaseDir
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+//compileJava.dependsOn jaxb
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

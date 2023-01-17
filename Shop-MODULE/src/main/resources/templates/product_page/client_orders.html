@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>Orders</title>
+
+</head>
+<body>
+<!----------- navBar ---------- -->
+<nav th:insert="include/navBar :: navbar"></nav>
+<main class="container mt-3">
+    <!----------- Form Add ---------- -->
+    <form style="text-align: center">
+        <table align="center">
+            <tr>
+                <td>Title</td>
+                <td><input type="text" id="title"></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><input type="number" id="price"></td>
+            </tr>
+        </table>
+        <button id="send" type="submit">Submit</button>
+    </form>
+
+
+
+    <!----------- content ---------- -->
+    <div th:if="${msg}">
+        <h4 th:text="${msg}" class="text-center text-danger">msg</h4>
+    </div>
+
+    <table id="table" class="table table-dark table-hover mt-5 col-10">
+        <thead>
+        <tr>
+            <th scope="col" >id</th>
+            <th scope="col" >Sum</th>
+            <th scope="col" >Satus</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="order : ${orders}" >
+            <td th:text="${order.id}">title</td>
+            <td th:text="${order.sum}">title</td>
+            <td th:text="${order.status}">title</td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>Product</title>
+</head>
+<body>
+<!----------- navBar ---------- -->
+<nav th:insert="include/navBar :: navbar"></nav>
+
+<main class="container col-5">
+    <div class="col-10 mx-auto mt-3">
+        <div class="row">
+            <div class="col-10">
+                <h1 class="text-center">
+                    Product ITEM
+                </h1>
+            </div>
+
+            <div class="col-5 mt-5">
+                <h4 th:if="${msg}" th:text="${msg}" class="text-center text-danger">
+                    Product ITEM
+                </h4>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center" th:unless="${msg}">
+        <div  style="width: 50rem;">
+            <img th:src="@{/img/chees.jpg}" class="card-img-top" width="50%" height="100" alt="...">
+            <div class="card-body">
+                <h5 th:text="${product.title}" class="card-title">Заголовок карточки</h5>
+                <p class="card-text">Небольшой пример текста, который должен основываться на названии карты и составлять основную часть содержимого карты.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li th:text="${product.price}" class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Ссылка карточки</a>
+                <a href="#" class="card-link">Другая ссылка</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

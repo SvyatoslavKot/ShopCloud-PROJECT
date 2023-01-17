@@ -1,0 +1,57 @@
+<configuration>
+
+    <property name="DEV_LOG" value="C:/Users/NADEZHDA/IdeaProjects/ShopCloud/Auth-MODULE/src/main/resources/log/dev.logs"/>
+    <property name="ALL_LOG" value="C:/Users/NADEZHDA/IdeaProjects/ShopCloud/Auth-MODULE/src/main/resources/log/all.logs"/>
+
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DEV_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/proj3ct.io/tg-simple-bot/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- each archived file, size max 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
+            <totalSizeCap>1GB</totalSizeCap>
+            <!-- 60 days to keep -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE-ROLLING-ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ALL_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>%d{yyyy-mmmm-dd}.%i.log.gz</fileNamePattern>
+            <!-- each archived file, size max 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
+            <totalSizeCap>1GB</totalSizeCap>
+            <!-- 60 days to keep -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-2relative %-1level %logger{20} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.example.authservice.app" level="debug" >
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE-ROLLING"/>
+    </logger>
+
+    <root level="info" >
+        <appender-ref ref="FILE-ROLLING-ALL"/>
+    </root>
+
+</configuration>
