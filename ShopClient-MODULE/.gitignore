@@ -4,6 +4,7 @@ HELP.md
 build/
 ENV
 
+dev.logs
 *.logs
 
 /src/main/resources/log/all.logs
