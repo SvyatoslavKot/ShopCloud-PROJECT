@@ -15,8 +15,8 @@ services:
       - 'mountPath=/var/log/rabbitmq/'
 
     ports:
-      - '192.168.99.100:5672:5672'
-      - '192.168.99.100:15672:15672'
+      - '5672:5672'
+      - '15672:15672'
     volumes:
       - $HOME/docker/volumes/rabbitmq/shopCloud:/var/lib/rabbitmq
       - $HOME/docker/volumes/rabbitmq/logs/shopClouds:/var/log/rabbitmq/logs

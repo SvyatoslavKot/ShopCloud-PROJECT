@@ -1,11 +1,14 @@
 server:
-  port:8082
+  port: 8082
 grpc:
   port: 9071
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
   kafka:
-    bootstrap-servers: 90.156.225.74:29092
+    bootstrap-servers: localhost:29092
     consumer:
       auto-offset-reset: earliest
     producer:
@@ -14,7 +17,7 @@ spring:
       client-id: 2
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.99.100:5432/client_module
+    url: jdbc:postgresql://localhost:5432/client_module
     username: postgres
     password: postgres
 

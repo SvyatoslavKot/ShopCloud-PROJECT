@@ -5,6 +5,7 @@ import com.example.shopclient_module.app.domain.ShopClient;
 import com.example.shopclient_module.app.domain.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @Builder
 public class UserDto implements Cloneable{
 
+    @ApiModelProperty(notes = "ClientShop name")
     private String firstName;
     private String lastName;
     private String mail;
