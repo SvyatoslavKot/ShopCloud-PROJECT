@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>Profile</title>
+</head>
+<body>
+<nav th:insert="include/navBar :: navbar"></nav>
+<H1> User PROFILE</H1>
+<form th:method="post" th:action="@{/user/profile}" th:object="${user}" method="post">
+    <table border="1">
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{firstName}"/></td>
+        </tr>
+        <tr>
+            <td>Lastname</td>
+            <td><input type="text" th:field="*{lastName}"/></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td><input type="text" th:field="*{address}"/></td>
+        </tr>
+        <tr>
+            <td>@Mail</td>
+            <td><p type="email" th:field="*{mail}"/></td>
+        </tr>
+    </table>
+    <button type="submit"> Save</button>
+</form>
+</body>
+</html>
