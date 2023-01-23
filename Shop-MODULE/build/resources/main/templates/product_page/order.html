@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>Order</title>
+</head>
+<body>
+<!----------- navBar ---------- -->
+<nav th:insert="include/navBar :: navbar"></nav>
+
+<main class="container col-10">
+    <div class="col-10 mx-auto mt-3">
+        <div class="row">
+            <div class="col-10">
+                <h1 class="text-center">
+                    Product ITEM
+                </h1>
+            </div>
+
+            <div class="col-10 mt-5">
+                <h4 th:if="${msg}" th:text="${msg}" class="text-center text-danger">
+                    Order
+                </h4>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center" th:unless="${msg}">
+        <div>
+            <h3> Client Information</h3>
+            <h5 >Order id: <span th:text="${order.id}"></span></h5>
+            <h5 >Email: <span th:text="${order.userMail}"></span></h5>
+            <h5 >Summa: <span th:text="${order.sum}"></span></h5>
+            <h5 >Address: <span th:text="${order.address}"></span></h5>
+            <h5 >Phone: <span th:text="${order.phone}"></span></h5>
+            <h5 >Delivery type: <span th:text="${order.delivery}"></span></h5>
+            <h5 >Order Status: <span th:text="${order.status}"></span></h5>
+
+        </div>
+        <div>
+            <h3> Content</h3>
+
+            <table id="table" class="table table-dark table-hover mt-5 col-10">
+                <thead>
+                <tr>
+                    <th scope="col" >id</th>
+                    <th scope="col" >productId</th>
+                    <th scope="col" >Title</th>
+                    <th scope="col" >Amount</th>
+                    <th scope="col" >Price</th>
+                </tr>
+                </thead>
+                <tbody >
+                <tr th:each="detail : ${order.orderDetails}" >
+                    <td th:text="${detail.id}">title</td>
+                    <td th:text="${detail.productId}">title</td>
+                    <td th:text="${detail.title}">title</td>
+                    <td th:text="${detail.amount}">title</td>
+                    <td th:text="${detail.price}">title</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="include/header :: header"></div>
+    <title>User Data</title>
+</head>
+<body>
+<nav th:insert="include/navBar :: navbar"></nav>
+
+<main class="container col-10">
+
+
+    <div th:if="${order}">
+
+        <h4 class="text-center"> Данные покупателя </h4>
+
+        <div th:if="${msg}" >
+        <h6 th:if="${msg}" th:text="${msg}" class="text-center text-danger">msg</h6>
+        </div>
+        <form method="post" style="text-align: center">
+            <label for="address" class="cols-sm-2 control-label">Адрес доставки</label>
+            <input th:field="*{order.address}" type="text" class="form-control" name="address" id="address" placeholder="Введите адрес доставки"/>
+            <label for="phone" class="cols-sm-2 control-label">Телефон</label>
+            <input th:field="*{order.phone}" type="text" class="form-control" name="phone" id="phone" placeholder="Введите Телефон"/>
+            <label for="delivery" class="cols-sm-2 control-label">Способ доставки</label>
+            <input th:field="*{order.delivery}" type="text" class="form-control" name="delivery" id="delivery" placeholder="Введите Способ доставки"/>
+            <table align="center">
+            </table>
+            <button  id="send" type="submit">Продолжить</button>
+        </form>
+    </div>
+
+        <form th:action="@{/order/{orderId}/cancel}" method="post">
+            <button type="submit"> Отменить </button>
+        </form>
+
+
+
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+syntax = "proto3";
+package com.example.grpc;
+
+message ProtoHttpStatus {
+  string code = 1;
+  string value = 2;
+  string phrase =3;
+}
+
+message ProtoUserDto {
+  string firstName = 1;
+  string lastName = 2;
+  string mail = 3;
+  string password = 4;
+  string matchingPassword = 5;
+  string role = 6;
+  string address = 7;
+  int64 bucket_id = 8;
+}
+
+message ProtoMessageString{
+  string message = 1;
+}
+
+message ProtoListOfUser {
+  repeated ProtoUserDto users = 1;
+}
+
+message ProtoResponseEntityUser {
+  ProtoUserDto body = 1;
+  ProtoHttpStatus httpStatus = 2;
+}
+
+message ProtoResponseEntityAllUsers {
+  ProtoListOfUser body = 1;
+  ProtoHttpStatus httpStatus = 2;
+}
+
+message ProtoResponseEntityString {
+  string message = 1;
+  ProtoHttpStatus httpStatus = 2;
+}
+
+message ProtoSearchParam {
+  string title = 1;
+}
+
+service ClientService {
+  rpc registrationClient (ProtoUserDto) returns (ProtoResponseEntityString);
+  rpc findByMail (ProtoMessageString)   returns (ProtoResponseEntityUser);
+  rpc findAllUserDto (ProtoSearchParam) returns (ProtoResponseEntityAllUsers);
+  rpc updateProfile (ProtoUserDto)      returns (ProtoResponseEntityString);
+}

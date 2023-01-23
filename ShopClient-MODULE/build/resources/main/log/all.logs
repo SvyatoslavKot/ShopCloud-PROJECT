@@ -1,0 +1,5 @@
+2023-01-23 14:01:01,115 INFO org.springframework.amqp.rabbit.connection.CachingConnectionFactory [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-4] Attempting to connect to: [192.168.99.100:5672]
+2023-01-23 14:01:22,189 INFO org.springframework.amqp.rabbit.connection.CachingConnectionFactory [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-8] Attempting to connect to: [192.168.99.100:5672]
+2023-01-23 14:01:22,189 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-01-23 14:01:22,189 INFO com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2023-01-23 14:01:22,197 INFO com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
