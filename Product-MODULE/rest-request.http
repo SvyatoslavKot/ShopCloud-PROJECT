@@ -26,3 +26,53 @@ GET http://localhost:8084/api/v1/product/list?page=2&size=4&titleFilter=&min=50&
 
 ###
 GET http://localhost:8084/api/v1/product/item/productId/2
+
+
+
+###
+POST https://ismp.crpt.ru/api/v3/auth/cert/
+Content-Type: application/json;charset=UTF-8
+
+{
+  "uuid": "ce37b74c-3017-4253-bfd0-66cdfeaa4432",
+  "data": "QNRPNPFGJZFUXCERQMTWLRMBRNRAAP"}
+
+
+###
+
+# curl -X POST -v 'https://ismp.crpt.ru/api/v3/auth/cert/'
+#-H 'content-type: application/json;charset=UTF-8'
+#--data-binary '{
+#"uuid":"50b47eeb-3dbc-46a8-be1d-dac17449aaa4",
+#"data":"<Подписанные данные в base64>"'
+POST https://ismp.crpt.ru/api/v3/auth/cert/
+Content-Type: application/json;charset=UTF-8
+
+{
+  "uuid": "50b47eeb-3dbc-46a8-be1d-dac17449aaa4",
+  "data": "<Подписанные данные в base64>"
+
+###
+
+# curl 'https://ismp.crpt.ru/api/v3/lk/documents/create?pg=milk'
+#-H 'content-type: application/json' -H 'Authorization: Bearer <ТОКЕН>'
+#--data-binary '{ "product_document":"<Документ в base64>",
+#"document_format":"MANUAL", "type": "LP_INTRODUCE_GOODS",
+#"signature":"<Открепленная подпись в base64>"}'
+POST https://ismp.crpt.ru/api/v3/lk/documents/create?pg=milk
+Authorization: Bearer <ТОКЕН>
+Content-Type: application/json
+
+{
+  "product_document": "<Документ в base64>",
+  "document_format": "MANUAL",
+  "type": "LP_INTRODUCE_GOODS",
+  "signature": "<Открепленная подпись в base64>"
+}
+
+###
+
+
+
+###
+
