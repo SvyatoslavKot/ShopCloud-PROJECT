@@ -1,7 +1,7 @@
 <configuration>
 
-    <property name="DEV_LOG" value="ShopClient-MODULE/src/main/resources/log/dev.logs"/>
-    <property name="ALL_LOG" value="ShopClient-MODULE/src/main/resources/log/all.logs"/>
+    <property name="DEV_LOG" value="logs/ShopClient-MODULE/dev.logs"/>
+    <property name="ALL_LOG" value="logs/ShopClient-MODULE/all.logs"/>
 
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${DEV_LOG}</file>

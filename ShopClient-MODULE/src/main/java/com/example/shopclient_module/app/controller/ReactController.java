@@ -3,6 +3,7 @@ package com.example.shopclient_module.app.controller;
 import com.example.shopclient_module.app.dto.UserDto;
 import com.example.shopclient_module.app.service.ClientService;
 import com.example.shopclient_module.app.service.ClientShopReactService;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/react/client")
+@Api(value = "ClientShop", description = "React Controller for ClientShop operation", tags = "ClientShop react-Controller API")
 public class ReactController {
 
     private final ClientShopReactService reactService;
@@ -24,7 +26,16 @@ public class ReactController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/getByMail/{mail}")
+
+
+
+    @GetMapping(value = "/getByMail/{mail}", produces = "application/json")
+    @ApiOperation(value = "Returned ClientShop by mail from DB client-shop")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK" ),
+            @ApiResponse(code = 205, message = "Reset content" ),
+            @ApiResponse(code = 204, message = "No Content")
+    })
     public Mono<ResponseEntity<UserDto>> getByMail(@PathVariable("mail") String mail) {
         HttpHeaders headers = new HttpHeaders();
         UserDto userDto = new UserDto();

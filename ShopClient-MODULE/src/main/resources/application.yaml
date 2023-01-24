@@ -1,9 +1,12 @@
 server:
-  port:8082
+  port: 8082
 grpc:
   port: 9071
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
   kafka:
     bootstrap-servers: 90.156.225.74:29092
     consumer:

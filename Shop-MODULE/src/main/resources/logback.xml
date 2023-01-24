@@ -1,7 +1,7 @@
 <configuration>
 
-    <property name="DEV_LOG" value="Shop_MODULE/src/main/resources/logs/dev.logs"/>
-    <property name="ALL_LOG" value="Shop_MODULE/src/main/resources/logs/all.logs"/>
+    <property name="DEV_LOG" value="logs/Shop_MODULE/dev.logs"/>
+    <property name="ALL_LOG" value="logs/Shop_MODULE/all.logs"/>
    <!--
     <property name="ERROR_LOG" value="C:/Users/NADEZHDA/IdeaProjects/ShopCloud/shop_module/src/main/resources/logs/error.logs"/>
 -->
