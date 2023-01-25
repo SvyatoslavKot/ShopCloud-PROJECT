@@ -90,9 +90,9 @@ tasks.named('test') {
 }
 
 flyway{
-	url = 'jdbc:postgresql://90.156.225.74:5432/product_module'
-	user = 'root'
-	password = 'postgres-e-shop'
+	url = 'jdbc:postgresql://192.168.99.100/product_module'
+	user = 'postgres'
+	password = 'postgres'
 	schemas = ['public']
 }
 

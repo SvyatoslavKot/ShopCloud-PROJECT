@@ -107,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
                 productDTO.getId(),
                 productDTO.getTitle(),
                 productDTO.getPrice(),
-                null,
+                productDTO.getCount_in_stock(),
                 new ArrayList<Category>());
         System.out.println(product);
         productRepository.save(product);
