@@ -7,19 +7,21 @@ import com.example.shop_module.app.exceptions.ResponseMessageException;
 import com.example.shop_module.app.wrapper.PageableResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
-import org.springframework.security.web.header.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,6 +29,10 @@ import java.util.Optional;
 public class RestProductClient {
     @Autowired
     private final RestTemplate restTemplate;
+
+    @Autowired
+    private final HttpRestClient httpClient;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -35,8 +41,9 @@ public class RestProductClient {
     @Value("${product-module.port}")
     private String PRODUCT_PORT;
 
-    public RestProductClient(RestTemplate restTemplate) {
+    public RestProductClient(RestTemplate restTemplate, HttpRestClient httpClient) {
         this.restTemplate = restTemplate;
+        this.httpClient = httpClient;
     }
 
     public ResponseEntity getForEntity ( String url, Class<?> responseType ) {
@@ -187,6 +194,24 @@ public class RestProductClient {
             String msg = response.getHeaders().get("message").stream().findFirst().get();
             throw new ResponseMessageException(response.getStatusCode(), msg);
         }
+    }
+
+
+    public  void addProductFromFile (String name, MultipartFile file) {
+        String URL = PRODUCT_HOST + PRODUCT_PORT + "/api/v1/product/add/fromFile";
+        try {
+            byte[] bytes = file.getBytes();
+            byte[] bName = name.getBytes(StandardCharsets.UTF_8);
+            Map<String, byte[]> requestMap = new HashMap<>();
+            requestMap.put("name", bName);
+            requestMap.put("file" , bytes);
+            HttpEntity requestEntity = new HttpEntity<>(requestMap);
+            //httpClient.postForEntity(URL,requestEntity,Void.class);
+            restTemplate.exchange(URL, HttpMethod.POST,requestEntity,Void.class);
+        } catch (IOException e) {
+        e.printStackTrace();
+    }
+       //
     }
 
 
