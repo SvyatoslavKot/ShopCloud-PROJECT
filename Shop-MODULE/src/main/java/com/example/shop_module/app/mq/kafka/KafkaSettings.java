@@ -7,7 +7,11 @@ public enum KafkaSettings {
     TOPIC_CLIENT_MODULE_MESSAGE("client-m_message"),
     TOPIC_CLIENT_MODULE_MESSAGE_REQUEST("client-m_message-request"),
     TOPIC_CLIENT_MODULE_MESSAGE_REPLY("client-m_message-reply"),
-    TOPIC_PRODUCT_MODULE_GET_BY_ID("productModule-get-by-id");
+
+    TOPIC_PRODUCT_MODULE_GET_BY_ID("productModule-get-by-id"),
+    TOPIC_PRODUCT_MODULE_ADD_BUCKET_BY_MAIL("productModule-add-bucket-by-mail"),
+    TOPIC_PRODUCT_MODULE_REMOVE_FROM_BUCKET("productModule-remove-from-bucket"),
+    TOPIC_PRODUCT_MODULE_UPDATE_PRODUCT("productModule-update-product");
 
 
     private String value;

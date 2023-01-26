@@ -162,4 +162,9 @@ public class GrpcProductService implements ProductService {
             throw new NoConnectedToGRpsServer();
         }
     }
+
+    @Override
+    public void updateProduct(ProductDTO updateProduct) {
+
+    }
 }

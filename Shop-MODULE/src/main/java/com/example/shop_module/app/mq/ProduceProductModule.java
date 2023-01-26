@@ -18,5 +18,6 @@ public interface ProduceProductModule {
     List<ProductDTO> getAll();
     void addProduct(ProductDTO dto);
     OrderDTO commitBucketToOrder(String email);
+    void updateProduct(ProductDTO updateProduct0);
 
 }

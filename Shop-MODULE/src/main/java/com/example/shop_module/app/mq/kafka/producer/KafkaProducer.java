@@ -34,10 +34,10 @@ public class KafkaProducer {
     private ObjectMapper objectMapper;
 
 
-    public void produce(String topic, Object requestMap)  {
-        log.info("Produce message , message{" + requestMap +"}");
+    public void produce(String topic, Object message)  {
+        log.info("Produce message , message{" + message +"}");
         try {
-            myKafkaTemplate.send(topic, requestMap).get();
+            myKafkaTemplate.send(topic, message).get();
 
         } catch (ExecutionException e) {
             e.printStackTrace();

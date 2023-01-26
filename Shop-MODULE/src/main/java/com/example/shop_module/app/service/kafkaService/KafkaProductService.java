@@ -45,18 +45,21 @@ public class KafkaProductService implements ProductService {
 
     @Override
     public void addToUserBucket(Long productId, String mail) {
-
+        produceProductModule.addToBucketByID(productId,mail);
     }
 
     @Override
     public void removeFromBucket(Long productId, String mail) {
-
+        produceProductModule.removeFromBucket(productId, mail);
     }
 
     @Override
     public void addProduct(ProductDTO productDTO) {
-
         produceProductModule.addProduct(productDTO);
+    }
 
+    @Override
+    public void updateProduct(ProductDTO updateProduct) {
+        produceProductModule.updateProduct(updateProduct);
     }
 }
