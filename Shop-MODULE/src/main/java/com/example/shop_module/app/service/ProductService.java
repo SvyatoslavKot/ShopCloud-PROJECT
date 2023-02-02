@@ -21,6 +21,7 @@ public interface ProductService {
     void addToUserBucket(Long productId, String mail);
     void removeFromBucket(Long productId, String mail);
     void addProduct(ProductDTO productDTO);
+    void updateProduct(ProductDTO updateProduct);
 
 
 }

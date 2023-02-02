@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -28,12 +30,17 @@ public class KafkaProduceProductModule implements ProduceProductModule {
 
     @Override
     public void addToBucketByID(Long productId, String mail) {
-
-        //kafkaTemplate.send()
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("productId", productId);
+        requestMap.put("mail", mail);
+        kafkaProducer.produce(KafkaSettings.TOPIC_PRODUCT_MODULE_ADD_BUCKET_BY_MAIL.getValue(), requestMap);
     }
     @Override
     public void removeFromBucket(Long productId, String mail) {
-
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("productId", productId);
+        requestMap.put("mail", mail);
+        kafkaProducer.produce(KafkaSettings.TOPIC_PRODUCT_MODULE_REMOVE_FROM_BUCKET.getValue(), requestMap);
     }
 
     @Override
@@ -41,21 +48,20 @@ public class KafkaProduceProductModule implements ProduceProductModule {
         kafkaProducer.produce(KafkaSettings.TOPIC_PRODUCT_MODULE_GET_BY_ID.getValue(), dto);
     }
 
-
-
+    @Override
+    public void updateProduct(ProductDTO updateProduct) {
+        kafkaProducer.produce(KafkaSettings.TOPIC_PRODUCT_MODULE_UPDATE_PRODUCT.getValue(), updateProduct);
+    }
 
     @Override
     public BucketDTO getBucketByUser(String email) {
         return null;
     }
 
-
     @Override
     public List<ProductDTO> getAll() {
         return null;
     }
-
-
 
     @Override
     public OrderDTO commitBucketToOrder(String email) {

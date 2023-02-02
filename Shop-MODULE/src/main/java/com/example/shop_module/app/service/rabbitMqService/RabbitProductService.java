@@ -78,4 +78,9 @@ public class RabbitProductService implements ProductService {
         //todo create method
         return null;
     }
+
+    @Override
+    public void updateProduct(ProductDTO updateProduct) {
+
+    }
 }

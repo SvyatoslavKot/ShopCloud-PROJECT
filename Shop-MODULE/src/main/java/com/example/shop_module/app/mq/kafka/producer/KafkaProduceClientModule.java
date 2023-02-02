@@ -67,7 +67,6 @@ public class KafkaProduceClientModule implements ProduceShopClient {
     public void updateClient(UserDTO userDTO) {
             try{
                 kafkaProducer.produce(KafkaSettings.TOPIC_CLIENT_MODULE_UPDATE_CLIENT.getValue(),userDTO);
-                kafkaProducer.produce(KafkaSettings.TOPIC_CLIENT_MODULE_GET_CLIENT_BY_MAIL.getValue(), userDTO.getMail());
             }catch (Exception e) {
                 throw new ResponseMessageException(HttpStatus.BAD_REQUEST, e.getMessage());
             }

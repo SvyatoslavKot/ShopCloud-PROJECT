@@ -7,7 +7,8 @@ public interface OrderService {
 
     ResponseEntity getOrderByMail(String mail);
     ResponseEntity createOrder(OrderDTO orderDTO);
-    void cancelOrder(Long id);
     ResponseEntity getOrderById(Long id);
     ResponseEntity updateOrder(OrderDTO orderDTO);
+
+    void cancelOrder(Long id);
 }

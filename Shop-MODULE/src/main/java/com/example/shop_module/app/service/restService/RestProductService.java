@@ -89,5 +89,8 @@ public class RestProductService implements ProductService {
             restProductClient.addProduct(productDTO);
     }
 
+    @Override
+    public void updateProduct(ProductDTO updateProduct) {
 
+    }
 }

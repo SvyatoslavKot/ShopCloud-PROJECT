@@ -9,13 +9,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StringParser {
+public class StringParser{
 
     public ProductDTO parseStringToProductDto (String stringLine) {
          String title = null;
          BigDecimal price = null;
          List<Category> categories = null;
          Long count_in_stock = null;
+
+
 
 
         if (stringLine != null && !stringLine.isEmpty()){
@@ -43,4 +45,5 @@ public class StringParser {
         return null;
 
     }
+
 }

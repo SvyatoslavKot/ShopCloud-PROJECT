@@ -109,4 +109,9 @@ public class RabbitProduceProductModule implements ProduceProductModule {
         log.error("Order Module is not responding", NoConnectedToMQException.class);
         throw new NoConnectedToMQException();
     }
+
+    @Override
+    public void updateProduct(ProductDTO updateProduct0) {
+
+    }
 }

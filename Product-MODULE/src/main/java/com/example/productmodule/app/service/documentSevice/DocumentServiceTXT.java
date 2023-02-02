@@ -28,6 +28,7 @@ public class DocumentServiceTXT implements DocumentService{
     volatile boolean saveEnd = false;
     volatile boolean parceEnd = false;
 
+
     @Override
     public void SaveFromDocument (String documentName, byte[] documentBytes) {
         String pathname = "Product-MODULE/"+ documentName + ".txt";
@@ -165,5 +166,6 @@ public class DocumentServiceTXT implements DocumentService{
                     e.printStackTrace();
                 }
     }
+
 
 }
