@@ -15,15 +15,28 @@ function connect(){
     });
 }
 
+//$(function () {
+  //  $("form").on('submit', function (e) {
+    //    e.preventDefault();
+    //});
+    //$( "#send" ).click(function () { sendContent(); });
+//});
+
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#send" ).click(function () { sendContent(); });
+    $( "#send2" ).click(function () { sendContent2(); });
 });
 
 function  sendContent() {
     stomp.send("/app/products", {}, JSON.stringify({
+        'title': $("#title").val(),
+        'price': $("#price").val()
+    }));
+}
+function  sendContent2() {
+    stomp.send("/app/products2", {}, JSON.stringify({
         'title': $("#title").val(),
         'price': $("#price").val()
     }));
