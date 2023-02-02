@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BubbleSort</title>
+    <!-- Stomp -->
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/bubbleSort.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/sort_bubble.css" />
+    </head>
+    <body >
+    <form id="input_array">
+        <table id="input_table">
+            <tr>
+                <td>Array: </td>
+                <td><input type="text" id="array"></td>
+                <td><input hidden="hidden" type="text" th:value="${reqID}" id="sessionId"></th:text></td>
+            </tr>
+        </table>
+        <button id="send" type="submit">Submit</button>
+    </form>
+
+    <div id="result" >
+        <table id="table" >
+            <thead>
+            <tr>
+                <th scope="col" id="title">SortArray</th>
+            </tr>
+            </thead>
+            <tbody >
+        </table>
+    </div>
+
+    </body>
+    </html>

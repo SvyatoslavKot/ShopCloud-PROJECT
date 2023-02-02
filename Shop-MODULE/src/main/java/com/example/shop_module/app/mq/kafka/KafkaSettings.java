@@ -11,7 +11,10 @@ public enum KafkaSettings {
     TOPIC_PRODUCT_MODULE_GET_BY_ID("productModule-get-by-id"),
     TOPIC_PRODUCT_MODULE_ADD_BUCKET_BY_MAIL("productModule-add-bucket-by-mail"),
     TOPIC_PRODUCT_MODULE_REMOVE_FROM_BUCKET("productModule-remove-from-bucket"),
-    TOPIC_PRODUCT_MODULE_UPDATE_PRODUCT("productModule-update-product");
+    TOPIC_PRODUCT_MODULE_UPDATE_PRODUCT("productModule-update-product"),
+
+    TOPIC_ALGORITHMS_SORT_BUBBLE("algorithms-sort-bubble"),
+    TOPIC_ALGORITHMS_SORT_QUICK("algorithms-sort-quick");
 
 
     private String value;

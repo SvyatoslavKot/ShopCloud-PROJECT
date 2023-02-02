@@ -72,7 +72,7 @@ public class ProductController {
     @GetMapping
     public String list (Model model){
         sessionObjectHolder.addClick();
-                var responseEntity = restProductService.getAll();
+                var responseEntity = productService.getAll();
                 if (responseEntity.getStatusCode().equals(HttpStatus.OK)){
                     var productList = (List<ProductDTO>) responseEntity.getBody();
                     model.addAttribute("products", productList);
@@ -124,11 +124,18 @@ public class ProductController {
         productService.addProduct(dto);
     }
 
+    @MessageMapping("/products2")
+    public void messageAddProduct2(ProductDTO dto) {
+        System.out.println(dto.getId());
+    }
+
     @MessageMapping("/addToBucket")
     public void messageAddProductToBucket(ProductDTO dto) {
         productService.addToUserBucket(dto.getId(), "mail");
         System.out.println("socket method");
     }
+
+
 
     @PostMapping("/list")
     ResponseEntity<Void> addToBucket(ProductDTO dto){

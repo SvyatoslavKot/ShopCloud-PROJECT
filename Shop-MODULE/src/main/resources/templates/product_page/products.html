@@ -5,6 +5,11 @@
 
     <title>Product List</title>
 
+    <!-- Stomp -->
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/productAddToBucket.js"></script>
 </head>
 <body>
 <!----------- navBar ---------- -->
@@ -19,9 +24,9 @@
 
     <!--Product Cards -->
     <div th:if="${list}">
-        <div class="d-flex flex-wrap col-12">
-        <div th:each="product : ${list}" class="col-3">
-            <form th:for="${#ids.next('form')}" >
+        <div  class="d-flex flex-wrap col-12">
+        <div  th:each="product : ${list}" class="col-3">
+            <form  th:for="${#ids.next('form')}">
             <div class="card m-3 ">
 
 
@@ -41,10 +46,13 @@
                 <ul class="list-group list-group-flush">
                     <li th:text="${product.price}" class="list-group-item">Price</li>
                 </ul>
-                <div class="card-body">
+                <input id="id" value="${product.id}">
+                <div class="card-body" th:Object = "${product.id}">
                     <a href="#" class="card-link">Favorite</a>
                     <a th:href="@{/product/item/{id}(id = ${product.id})}" class="card-link">Select</a>
                     <a th:href="@{/product/{id}/bucket(id=${product.id})}" class="card-link">Add cart</a>
+                    <button th:id="${product.id}" class="add" type="button" onclick="add(1)" >Submit2</button>
+                    <button th:id="add_bucket" type="submit">Submit2</button>
                 </div>
                 <div class="card-footer text-muted">
                     2 days ago

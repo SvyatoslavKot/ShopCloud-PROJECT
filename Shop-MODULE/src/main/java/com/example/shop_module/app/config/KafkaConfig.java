@@ -71,6 +71,20 @@ public class KafkaConfig {
     }
 
     @Bean
+    public Map<String, Object> consumerConfigString() {
+        Map <String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServer);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "messageString");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        props.put(OBJECT_MAPPER, new ObjectMapper());
+        //props.put(TYPE_REFERENCE, new TypeReference<UserDTO>(){});
+
+        return props;
+    }
+
+    @Bean
     public ProducerFactory<String, Object> producerFactoryJson() {
         return  new DefaultKafkaProducerFactory<>(producerConfigJson());
     }
@@ -78,6 +92,10 @@ public class KafkaConfig {
     public ConsumerFactory<String, Object> consumerFactoryUserDTO() {
         consumerConfigJson().put(TYPE_REFERENCE,new TypeReference<UserDTO>(){});
         return new DefaultKafkaConsumerFactory<>(consumerConfigJson());
+    }
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        return  new DefaultKafkaConsumerFactory<>(consumerConfigString());
     }
 
 }

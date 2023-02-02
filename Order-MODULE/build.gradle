@@ -32,6 +32,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.10.0'
+
+    testImplementation group: 'org.cassandraunit', name: 'cassandra-unit', version: '4.3.1.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
