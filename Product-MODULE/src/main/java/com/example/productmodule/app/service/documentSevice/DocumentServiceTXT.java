@@ -78,6 +78,7 @@ public class DocumentServiceTXT implements DocumentService{
                     readEnd = false;
                     reader = new BufferedReader(new FileReader(new File(pathName)));
                     String line = reader.readLine();
+
                     while (line != null) {
                         stringQueue.add(line);
                         System.out.println("add");

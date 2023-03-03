@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/order")
 public class OrderRestController {
 
     private final OrderService orderService;
@@ -22,7 +22,7 @@ public class OrderRestController {
         this.orderService = orderService;
     }
 
-    @GetMapping(value = "/orders" , produces ="application/json")
+    @GetMapping(value = "/get/orders/bymail" , produces ="application/json")
     public ResponseEntity getOrderByMail (@RequestParam(name = "mail") String mail){
         System.out.println("mail -> " + mail);
         List<OrderDTO> orderList = orderService.getOrdersByMail(mail);
@@ -30,7 +30,7 @@ public class OrderRestController {
         return new ResponseEntity(orderList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/order/get/byId/{id}")
+    @GetMapping(value = "/get/byId/{id}")
     public ResponseEntity getOrderById (@PathVariable("id") Long id) {
         HttpHeaders headers = new HttpHeaders();
         try{

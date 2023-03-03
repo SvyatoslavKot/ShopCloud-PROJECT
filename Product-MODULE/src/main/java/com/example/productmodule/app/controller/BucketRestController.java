@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/v1/bucket")
+@RequestMapping("/api/v1/product/bucket")
 public class BucketRestController {
 
     private final BucketService bucketService;

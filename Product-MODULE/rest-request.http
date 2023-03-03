@@ -39,6 +39,9 @@ Content-Type: application/json;charset=UTF-8
 
 
 ###
+GET https://cloud-api.yandex.net/v1/disk/resources/download?path=ya-disk-public%3A%2F%2FrFv21zFxOVGbtuC8eUeJXoazUZdxUUTcF01nJiMZE326f81O1DnAUBeLoMT4L6NXq%2FJ6bpmRyOJonT3VoXnDag%3D%3D&
+Content-Type: application/json
+Authorization: OAuth AQAD-00d33b90f3804de193df30f27f499cd9
 
 # curl -X POST -v 'https://ismp.crpt.ru/api/v3/auth/cert/'
 #-H 'content-type: application/json;charset=UTF-8'

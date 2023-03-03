@@ -23,7 +23,7 @@ public class RestOrderService implements OrderService {
 
     @Override
     public ResponseEntity getOrderByMail(String mail) {
-        String url = "/orders?mail=" + mail;
+        String url = "/get/orders/bymail?mail=" + mail;
         try{
             ResponseEntity response =  restClient.exchangeForEntity(url, null, new ParameterizedTypeReference<List<OrderDTO>>() {});
             return response;

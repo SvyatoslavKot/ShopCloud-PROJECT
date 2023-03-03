@@ -75,6 +75,10 @@ dependencies {
 
     runtimeOnly group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
 
+    //apache POI
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+
+
     //gRPC
     runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
