@@ -1,0 +1,20 @@
+version: '2'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  cassandra:
+    image: 'bitnami/cassandra:latest'
+    environment:
+      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_USER=cassandra
+      - USE_NATIVE_CLOCK_SYSTEM_PROPERTY=false
+    volumes:
+      - ./data:/var/lib/cassandra
+    ports:
+      - '192.168.99.100:7000:7000'
+      - '192.168.99.100:9042:9042'

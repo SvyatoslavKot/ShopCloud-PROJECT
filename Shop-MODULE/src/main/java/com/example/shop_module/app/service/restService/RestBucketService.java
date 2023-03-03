@@ -27,7 +27,7 @@ public class RestBucketService implements BucketService {
 
     @Override
     public ResponseEntity commitBucketToOrder(String email) {
-        String url =  "/confirm" + "?mail=" + email;
+        String url =  "/product/confirm" + "?mail=" + email;
         ResponseEntity response = null;
         try {
             response = bucketRestClient.getForEntity(url,Void.class);

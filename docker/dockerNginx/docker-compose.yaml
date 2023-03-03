@@ -1,0 +1,176 @@
+version: '3'
+
+services:
+  webserver:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    networks:
+      - app-network
+
+      #certbot:
+      # image: certbot/certbot:latest
+      # volumes:
+      # - ./certbot/www/:/var/www/certbot/:rw
+      # - ./certbot/conf/:/etc/letsencrypt/:rw
+      # command: certonly --webroot --webroot-path=/var/www/certbot --email kotov.svyat@mail.ru --agree-tos --no-eff-email --force-renewal -d e-kotovsvyatoslav.ru
+
+  postgres:
+    image: 'postgres:10'
+    container_name: 'java-postgres'
+    environment:
+      - 'POSTGRES_USER=root'
+      - 'POSTGRES_PASSWORD=postgres-e-shop'
+      - 'POSTGRES_DB=default'
+      #- 'PGDATA=./postgres/data/:/var/lib/postgresql/data'
+      - 'POSTGRES_INITDB_ARGS= --encoding=UTF-8 --lc-collate=C --lc-ctype=C'
+
+    volumes:
+      - ./postgres/data/:/var/lib/postgresql/data
+      ##- ./volumes/postgres:/var/lib/postgresql/data
+    ports:
+      - '90.156.225.74:5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 1G
+
+  rabbitmq:
+    image: rabbitmq:3.11.0-management
+    container_name: rabbitMq
+    restart: unless-stopped
+    depends_on:
+      - webserver
+    environment:
+      - 'RABBITMQ_USER= root-rabbituser'
+      - 'RABBITMQ_PASSWORD=rabbit-e-shop'
+      - 'RABBITMQ_HOSTNAME=rabbitmq'
+      - 'RABBITMQ_DEFAULT_USER=root-e-shop'
+      - 'RABBITMQ_DEFAULT_PASS=root-e-shop'
+      - 'mountPath=/var/lib/rabbitmq/'
+      - 'mountPath=/var/log/rabbitmq/'
+
+    ports:
+      - '90.156.225.74:5672:5672'
+      - '90.156.225.74:15672:15672'
+    volumes:
+      - $HOME/docker/volumes/rabbitmq/shopCloud:/var/lib/rabbitmq
+      - $HOME/docker/volumes/rabbitmq/logs/shopClouds:/var/log/rabbitmq/logs
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      FF_NETWORK_PER_BUILD: "true"
+    restart: unless-stopped
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+       - zookeeper
+    restart: unless-stopped
+    ports:
+       - '90.156.225.74:29092:29092'
+    environment:
+      KAFKA_BROKER_ID: 2
+      FF_NETWORK_PER_BUILD: "true"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://90.156.225.74:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  shop-module:
+    image: svyatoslavkotov/e-shop-micro_shop-module:v1.2
+    container_name: 'shop-module'
+    depends_on:
+      - postgres
+      - webserver
+    env_file:
+      - .env
+      - YaA.env
+    networks:
+      - app-network
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+
+      PRODUCT-MODULE_HOST: ${PRODUCT_MODULE_HOST}
+      PRODUCT-MODULE_PORT: ${PRODUCT_MODULE_PORT}
+      PRODUCT-MODULE_GRPC_HOST: ${PRODUCT_MODULE_GRPC_HOST}
+      PRODUCT-MODULE_GRPC_PORT: ${PRODUCT_MODULE_GRPC_PORT}
+
+      ORDER-MODULE_HOST: ${ORDER_MODULE_HOST}
+      ORDER-MODULE_PORT: ${ORDER_MODULE_PORT}
+
+      CLIENT-SHOP-MODULE_GRPC_HOST: ${CLIENT_SHOP_MODULE_GRPC_HOST}
+      CLIENT-SHOP-MODULE_GRPC_PORT: ${CLIENT_SHOP_MODULE_GRPC_PORT}
+
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+      JWT_SECRET: ${JWT_SECRET}
+      AUTH_COOKIE_AUTH: ${AUTH_COOKIE_AUTH}
+
+      SPRING_RABBITMQ_HOST: ${SPRING_RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${SPRING_RABBITMQ_PORT}
+      SPRING_RABBITMQ_USERNAME: ${SPRING_RABBITMQ_USERNAME}
+      SPRING_RABBITMQ_PASSWORD: ${SPRING_RABBITMQ_PASSWORD}
+
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+      SPRING_KAFKA_CONSUMER_AUTO-OFFSET-RESET: ${SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET}
+      SPRING_KAFKA_PRODUCER_ACKS: ${SPRING_KAFKA_PRODUCER_ACKS}
+    restart: always
+    expose:
+      - '${SERVER_PORT}'
+    ports:
+      #- '90.156.225.74:${SERVER_PORT}:${SERVER_PORT}'
+      - '${GRPC_SERVER_PORT}:${GRPC_SERVER_PORT}'
+
+
+  dialog_alice:
+    image: svyatoslavkotov/dialog_alisa:v.1.3
+    container_name: 'dialog_alice'
+    depends_on:
+      - postgres
+      - webserver
+    networks:
+      - app-network
+    restart: always
+    environment:
+      SERVER_PORT: ${YAA_PORT}
+      SPRING_DATASOURCE_URL: ${YAA_DATA_SOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${YAA_DATA_SOURCE_NAME}
+      SPRING_DATASOURCE_PASSWORD: ${YAA_DATA_SOURCE_PASSWORD}
+    expose:
+      - "8070"
+
+
+networks:
+  app-network:
+    driver: bridge
+  postgres:
+    driver: bridge
+volumes:
+  pgdata:
+  rabbitMqData:
+  rabbitMqLogs:
