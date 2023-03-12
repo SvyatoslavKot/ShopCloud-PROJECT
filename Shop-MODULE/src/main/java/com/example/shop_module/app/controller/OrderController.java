@@ -2,13 +2,17 @@ package com.example.shop_module.app.controller;
 
 
 import com.example.shop_module.app.dto.OrderDTO;
-import com.example.shop_module.app.service.OrderService;
+import com.example.shop_module.app.restClient.HttpClientSettings;
+import com.example.shop_module.app.service.ServiceFactory;
+import com.example.shop_module.app.service.abstraction.OrderService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,10 +24,11 @@ public class OrderController {
     private final OrderService rabbitOrderService;
     private final OrderService restOrderService;
 
-    public OrderController(@Qualifier("rabbitOrderService") OrderService rabbitOrderService,
-                           @Qualifier("restOrderService") OrderService restOrderService) {
-        this.rabbitOrderService = rabbitOrderService;
-        this.restOrderService = restOrderService;
+    public OrderController(RabbitTemplate rabbitTemplate,
+                           RestTemplate restTemplate,
+                           HttpClientSettings httpClientSettings) {
+        this.rabbitOrderService = ServiceFactory.newOrderService(rabbitTemplate);
+        this.restOrderService = ServiceFactory.newOrderService(restTemplate,httpClientSettings);
     }
 
     @GetMapping("/all")

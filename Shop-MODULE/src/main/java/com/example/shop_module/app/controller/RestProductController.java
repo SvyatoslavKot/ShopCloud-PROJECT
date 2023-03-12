@@ -2,8 +2,9 @@ package com.example.shop_module.app.controller;
 
 import com.example.shop_module.app.domain.Category;
 import com.example.shop_module.app.dto.ProductDTO;
-import com.example.shop_module.app.dto.UserDTO;
-import com.example.shop_module.app.service.ProductService;
+import com.example.shop_module.app.restClient.HttpClientSettings;
+import com.example.shop_module.app.service.ServiceFactory;
+import com.example.shop_module.app.service.abstraction.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -23,10 +25,11 @@ import java.util.Optional;
 @RestController
 public class RestProductController {
 
-    @Autowired
-    @Qualifier("restProductService")
-    ProductService restProductService;
+    private final ProductService restProductService;
 
+    public RestProductController(RestTemplate restTemplate, HttpClientSettings httpClientSettings) {
+        this.restProductService = ServiceFactory.newProductService(restTemplate,httpClientSettings);
+    }
 
     @GetMapping("/rest/product/{id}")
     public String getById(@PathVariable("id") Long id) {

@@ -1,34 +1,48 @@
 package com.example.shop_module.app.service.rabbitMqService;
 
 import com.example.shop_module.app.exceptions.LoginClientException;
-import com.example.shop_module.app.mq.ProduserAuthModule;
-import com.example.shop_module.app.service.AuthService;
+import com.example.shop_module.app.mq.rabbitMq.RabbitMqSetting;
+import com.example.shop_module.app.mq.rabbitMq.abstraction.RabbitProducing;
+import com.example.shop_module.app.service.abstraction.AuthService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
+import java.util.HashMap;
 import java.util.Map;
 
-@Service
 @Slf4j
-public class RabbitAuthService implements AuthService {
+public class RabbitAuthService extends RabbitAbstractService implements AuthService {
 
-    @Autowired
-    @Qualifier("rabbitProduceAuthModule")
-    private ProduserAuthModule rabbitProduceAuth;
+    private RabbitProducing producer;
+
+    public RabbitAuthService(RabbitTemplate rabbitTemplate) {
+        super(rabbitTemplate);
+        this.producer = getProducer();
+    }
 
     @Override
-    public ResponseEntity authorization(String email, String password) throws RuntimeException {
-            Map<Object, Object> responseMap = rabbitProduceAuth.authorization(email,password);
+    public ResponseEntity authorization(String email, String password) {
+        log.info("Produce to AuthModule -> authorization, mail: {}, password: {}", email, password);
 
-            if(responseMap.get(HttpStatus.OK.name()) != null){
-                return new ResponseEntity(responseMap.get(HttpStatus.OK.name()), HttpStatus.OK);
+        HashMap<String,String> requestMap = new HashMap<>();
+        requestMap.put("password", password);
+        requestMap.put("mail", email);
+
+        Map<Object, Object> response = producer.convertSendAndReceiveMap(RabbitMqSetting.EXCHANGE_AUTH.getValue(),
+                RabbitMqSetting.ROUTING_KEY_AUTH.getValue(),
+                requestMap);
+
+        if (response!= null) {
+            log.info("Produce to AuthModule -> authorization return ->, response: {}", response);
+            if(response.get(HttpStatus.OK.name()) != null){
+                return new ResponseEntity(response.get(HttpStatus.OK.name()), HttpStatus.OK);
             }
-            throw new LoginClientException(HttpStatus.NON_AUTHORITATIVE_INFORMATION,
-                    (String)responseMap.get(HttpStatus.NON_AUTHORITATIVE_INFORMATION.name()));
         }
+        //throw new NoConnectedToMQException();
+        throw new LoginClientException(
+                HttpStatus.NON_AUTHORITATIVE_INFORMATION,
+                (String)response.get(HttpStatus.NON_AUTHORITATIVE_INFORMATION.name()));
+    }
 }

@@ -2,9 +2,8 @@ package com.example.shop_module.app.controller;
 
 import com.example.shop_module.app.aopService.MeasureMethod;
 import com.example.shop_module.app.dto.UserDTO;
-import com.example.shop_module.app.exceptions.LoginClientException;
 import com.example.shop_module.app.security.JwtTokenProviderService;
-import com.example.shop_module.app.service.SessionObjectHolder;
+import com.example.shop_module.app.util.SessionObjectHolder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;

@@ -3,13 +3,10 @@ package com.example.shop_module.app.controller;
 
 import com.example.shop_module.app.domain.Category;
 import com.example.shop_module.app.dto.ProductDTO;
-import com.example.shop_module.app.service.ProductService;
-import com.example.shop_module.app.service.grpcService.GrpcProductService;
-import org.checkerframework.checker.units.qual.C;
+import com.example.shop_module.app.service.abstraction.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @RestController

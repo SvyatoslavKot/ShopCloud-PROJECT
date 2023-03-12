@@ -1,11 +1,11 @@
 package com.example.shop_module.app.security;
 
 import com.example.shop_module.app.dto.UserDTO;
-import com.example.shop_module.app.mq.ProduserAuthModule;
-import com.example.shop_module.app.service.AuthService;
-import com.example.shop_module.app.service.UserService;
+import com.example.shop_module.app.service.abstraction.AuthService;
+import com.example.shop_module.app.service.ServiceFactory;
+import com.example.shop_module.app.service.abstraction.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtTokenProviderService {
 
     private final JwtSettingsProvider jwtSettingsProvider;
-    private final ProduserAuthModule produserAuthModule;
     private final AuthService rabbitAuthService;
     private final UserService rabbitUserService;
 
-    public JwtTokenProviderService(JwtSettingsProvider jwtSettingsProvider,
-                                   @Qualifier("rabbitProduceAuthModule") ProduserAuthModule produserAuthModule,
-                                   @Qualifier("rabbitAuthService") AuthService rabbitAuthService,
-                                   @Qualifier("rabbitUserService") UserService rabbitUserService) {
+    public JwtTokenProviderService(
+            RabbitTemplate rabbitTemplate,
+            JwtSettingsProvider jwtSettingsProvider) {
         this.jwtSettingsProvider = jwtSettingsProvider;
-        this.produserAuthModule = produserAuthModule;
-        this.rabbitAuthService = rabbitAuthService;
-        this.rabbitUserService = rabbitUserService;
+        this.rabbitAuthService = ServiceFactory.newAuthService(rabbitTemplate);
+        this.rabbitUserService = ServiceFactory.newUserService(rabbitTemplate);
     }
 
     public ResponseEntity login  (HttpServletResponse response, String email, String password){
@@ -40,25 +37,6 @@ public class JwtTokenProviderService {
         }catch (RuntimeException e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         }
-        /*
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        System.out.println("service login " +" mail " + email + " passwor " + password);
-        System.out.println(userRepository.findByMail(email));
-
-        requestJsonObject.put("mail", email);
-        requestJsonObject.put("password", password);
-        HttpEntity request = new HttpEntity(requestJsonObject.toString(), headers);
-
-        ResponseEntity<String> respToken = restTemplate.postForEntity(AUTH_LOGIN_URL, request, String.class);
-
-        JSONObject requestToken = new JSONObject(respToken.getBody());
-        String token = (String) requestToken.get("token");
-        */
-      //  String authorizationResponse = produserAuthModule.authorization(email,password);
-
-       // Cookie cookie = createCookie(token);
-
-        //response.addCookie(cookie);
     }
 
     public UserDTO getCurrentUserFromToken(String mail) {

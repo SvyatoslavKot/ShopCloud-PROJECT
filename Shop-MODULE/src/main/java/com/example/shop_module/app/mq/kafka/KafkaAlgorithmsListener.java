@@ -13,7 +13,7 @@ public class KafkaAlgorithmsListener {
     @Autowired
     private WebSocketSender sender;
 
-    @KafkaListener(topics = "algorithms-sort-bubble-answer" , groupId = "messageString")
+    @KafkaListener(topics = "algorithms-sort-bubble-answer"  , groupId = "messageString")
     public void algorithmsBubbleAnswer (String msg) throws JSONException {
         JSONObject jsonObject = new JSONObject(msg);
         String message = (String) jsonObject.get("message");

@@ -1,36 +1,31 @@
 package com.example.shop_module.app.controller;
 
-import com.example.shop_module.app.restClient.RestProductClient;
+import com.example.shop_module.app.restClient.HttpClientSettings;
+import com.example.shop_module.app.service.abstraction.ProductService;
+import com.example.shop_module.app.service.restService.HttpClientProductService;
 import com.example.shop_module.app.util.SaveImage;
-import io.netty.buffer.ByteBufOutputStream;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Iterator;
 
 @Controller
 public class ProductFileController {
 
-    @Autowired
-    private final RestProductClient productClient;
+    private final ProductService productService;
     private SaveImage saveImage = new SaveImage();
 
-    public ProductFileController(RestProductClient productClient) {
-        this.productClient = productClient;
+    public ProductFileController(RestTemplate restTemplate, HttpClientSettings httpClientSettings) {
+        this.productService = new HttpClientProductService(restTemplate, httpClientSettings);
     }
+
+
+
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public  String provideUploadInfo() {
@@ -45,8 +40,7 @@ public class ProductFileController {
             saveImage.saveAndCompress(name, file.getBytes(), "jpeg");
 
 
-
-           // productClient.addProductFromFile(name, file);
+            productService.addProductFromFile(name, file);
             return "file send";
 /*
 

@@ -1,4 +1,4 @@
-package com.example.shop_module.app.service;
+package com.example.shop_module.app.util;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
