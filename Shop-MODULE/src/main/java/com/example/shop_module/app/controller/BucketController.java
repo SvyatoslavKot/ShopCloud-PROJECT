@@ -1,20 +1,23 @@
 package com.example.shop_module.app.controller;
 
-import com.example.shop_module.app.dto.OrderDTO;
 import com.example.shop_module.app.dto.BucketDTO;
-import com.example.shop_module.app.service.BucketService;
-import com.example.shop_module.app.service.OrderService;
-import com.example.shop_module.app.service.ProductService;
-import lombok.AllArgsConstructor;
+import com.example.shop_module.app.restClient.HttpClientSettings;
+import com.example.shop_module.app.service.ServiceFactory;
+import com.example.shop_module.app.service.abstraction.BucketService;
+import com.example.shop_module.app.service.abstraction.OrderService;
+import com.example.shop_module.app.service.abstraction.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 
@@ -26,14 +29,14 @@ public class BucketController {
     private final OrderService rabbitOrderService;
     private final BucketService restBucketService;
 
-    public BucketController(@Qualifier("rabbitBucketService") BucketService rabbitBucketService,
-                            @Qualifier("rabbitProductService") ProductService rabbitProductService,
-                            @Qualifier("rabbitOrderService") OrderService rabbitOrderService,
-                            @Qualifier("restBucketService") BucketService restBucketService) {
-        this.rabbitBucketService = rabbitBucketService;
-        this.rabbitProductService = rabbitProductService;
-        this.rabbitOrderService = rabbitOrderService;
-        this.restBucketService = restBucketService;
+    public BucketController(RabbitTemplate rabbitTemplate,
+                            RestTemplate restTemplate,
+                            SimpMessagingTemplate templateMsg,
+                            HttpClientSettings httpClientSettings) {
+        this.rabbitBucketService = ServiceFactory.newBucketService(rabbitTemplate);
+        this.rabbitProductService = ServiceFactory.newProductService(rabbitTemplate, templateMsg);
+        this.rabbitOrderService = ServiceFactory.newOrderService(rabbitTemplate);
+        this.restBucketService = ServiceFactory.newBucketService(restTemplate,httpClientSettings);
     }
 
     @GetMapping("/bucket")

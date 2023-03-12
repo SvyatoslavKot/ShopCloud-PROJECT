@@ -1,7 +1,10 @@
 package com.example.shop_module.app.controller;
 
-import com.example.shop_module.app.service.AlgorithmsService;
+import com.example.shop_module.app.service.ServiceFactory;
+import com.example.shop_module.app.service.abstraction.AlgorithmsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/algorithms")
 public class AlgorithmsController {
 
-    @Autowired
-    AlgorithmsService algorithmsService;
+    private final AlgorithmsService algorithmsService;
 
-    @Autowired
-    SimpMessagingTemplate messagingTemplate;
-
+    public AlgorithmsController(@Qualifier("myKafkaTemplate")KafkaTemplate kafkaTemplate) {
+        this.algorithmsService = ServiceFactory.newAlgorithmsService(kafkaTemplate);
+    }
 
     @GetMapping("/sort/bubble")
     public String bubbleSort(HttpServletRequest request, Model model) {

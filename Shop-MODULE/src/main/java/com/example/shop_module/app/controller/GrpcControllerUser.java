@@ -2,7 +2,7 @@ package com.example.shop_module.app.controller;
 
 import com.example.shop_module.app.dto.UserDTO;
 import com.example.shop_module.app.exceptions.NoConnectedToGRpsServer;
-import com.example.shop_module.app.service.UserService;
+import com.example.shop_module.app.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;

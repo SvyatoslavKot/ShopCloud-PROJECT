@@ -7,7 +7,7 @@ import com.example.shop_module.app.exceptions.NoConnectedToGRpsServer;
 import com.example.shop_module.app.exceptions.NoConnectedToMQException;
 import com.example.shop_module.app.exceptions.ResponseMessageException;
 import com.example.shop_module.app.gRPC.mapper.ProductGRpcMapper;
-import com.example.shop_module.app.service.ProductService;
+import com.example.shop_module.app.service.abstraction.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -165,6 +166,11 @@ public class GrpcProductService implements ProductService {
 
     @Override
     public void updateProduct(ProductDTO updateProduct) {
+
+    }
+
+    @Override
+    public void addProductFromFile(String name, MultipartFile file) {
 
     }
 }

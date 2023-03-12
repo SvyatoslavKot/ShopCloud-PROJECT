@@ -1,0 +1,1 @@
+2023-03-07 09:47:35,992 INFO com.example.shop_module.app.mq.kafka.producer.KafkaProducer [clientInboundChannel-114] Produce message , message{{sessionId=E5AB33CD6D67EB768F65075EC1641366, message=55,66,88,99,44,234,786,987,234,6543,876,98,8,5,765,23465,675,78,456,23,876}}

@@ -1,4 +1,4 @@
-package com.example.shop_module.app.service;
+package com.example.shop_module.app.service.abstraction;
 
 import com.example.shop_module.app.dto.OrderDTO;
 import org.springframework.http.ResponseEntity;

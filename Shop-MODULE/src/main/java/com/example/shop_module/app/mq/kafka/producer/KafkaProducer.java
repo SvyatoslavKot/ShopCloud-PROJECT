@@ -1,43 +1,21 @@
 package com.example.shop_module.app.mq.kafka.producer;
 
-import com.example.shop_module.app.dto.UserDTO;
-import com.example.shop_module.app.exceptions.ResponseMessageException;
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.header.internals.RecordHeader;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
-import org.springframework.kafka.requestreply.RequestReplyFuture;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.concurrent.ExecutionException;
 
-@Component
 @Slf4j
-public class KafkaProducer {
+public class KafkaProducer extends KafkaAbstractProducer{
 
-    @Autowired
-    @Qualifier("myKafkaTemplate")
-    private KafkaTemplate myKafkaTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
+    public KafkaProducer(KafkaTemplate kafkaTemplate) {
+        super(kafkaTemplate);
+    }
 
     public void produce(String topic, Object message)  {
         log.info("Produce message , message{" + message +"}");
         try {
-            myKafkaTemplate.send(topic, message).get();
+            kafkaTemplate.send(topic, message).get();
 
         } catch (ExecutionException e) {
             e.printStackTrace();

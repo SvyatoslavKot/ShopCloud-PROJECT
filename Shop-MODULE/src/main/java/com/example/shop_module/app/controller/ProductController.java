@@ -1,19 +1,22 @@
 package com.example.shop_module.app.controller;
 
+import com.example.shop_module.app.service.rabbitMqService.RabbitProductService;
+import com.example.shop_module.app.service.ServiceFactory;
+import com.example.shop_module.app.restClient.HttpClientSettings;
 import com.example.shop_module.app.aopService.MeasureMethod;
-import com.example.shop_module.app.restClient.RestProductClient;
-import com.example.shop_module.app.service.ProductService;
-import com.example.shop_module.app.service.SessionObjectHolder;
+import com.example.shop_module.app.service.abstraction.ProductService;
+import com.example.shop_module.app.util.SessionObjectHolder;
 import com.example.shop_module.app.dto.ProductDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.math.BigDecimal;
@@ -26,21 +29,27 @@ import java.util.Optional;
 @Slf4j
 public class ProductController {
 
-    private final ProductService productService;
-    private final ProductService restProductService;
+    private ProductService productServiceRabbit;
+    private ProductService productServiceRest;
+
+    private RabbitProductService productService;
+
     private final ProductService grpcProductService;
     private final SessionObjectHolder sessionObjectHolder;
-    private final RestProductClient restProductClient;
 
-    public ProductController(@Qualifier("rabbitProductService") ProductService productService,
-                             SessionObjectHolder sessionObjectHolder,
-                             @Qualifier("restProductService") ProductService restProductService,
-                             @Qualifier("grpcProductService") ProductService grpcProductService, RestProductClient restProductClient) {
-        this.productService = productService;
-        this.restProductService = restProductService;
+    public ProductController(
+            SimpMessagingTemplate templateMsg,
+            RabbitTemplate rabbitTemplate,
+            RestTemplate restTemplate,
+            HttpClientSettings httpClientSettings,
+            ProductService grpcProductService,
+            SessionObjectHolder sessionObjectHolder) {
+
         this.grpcProductService = grpcProductService;
+
         this.sessionObjectHolder = sessionObjectHolder;
-        this.restProductClient = restProductClient;
+        this.productServiceRabbit = ServiceFactory.newProductService(rabbitTemplate, templateMsg);
+        this.productServiceRest = ServiceFactory.newProductService(restTemplate, httpClientSettings);
     }
 
     @GetMapping("/list")
@@ -53,7 +62,8 @@ public class ProductController {
                              @RequestParam(name = "sortField", required = false) Optional<String> sortField,
                              @RequestParam(name = "sortOrder", required = false) Optional<String> sortOrder){
 
-        var responseEntity = restProductService.getByParam(page,size,titleFilter, min,max);
+        //var responseEntity = restProductService.getByParam(page,size,titleFilter, min,max);
+        var responseEntity = productServiceRest.getByParam(page,size,titleFilter, min,max);
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)){
             var products = (Page<ProductDTO>) responseEntity.getBody();
             var productList = products.getContent();
@@ -71,8 +81,7 @@ public class ProductController {
     @MeasureMethod
     @GetMapping
     public String list (Model model){
-        sessionObjectHolder.addClick();
-                var responseEntity = productService.getAll();
+                var responseEntity = productServiceRabbit.getAll();
                 if (responseEntity.getStatusCode().equals(HttpStatus.OK)){
                     var productList = (List<ProductDTO>) responseEntity.getBody();
                     model.addAttribute("products", productList);
@@ -114,7 +123,8 @@ public class ProductController {
 
     @PostMapping
     ResponseEntity<Void> addProduct(ProductDTO productDTO){
-        productService.addProduct(productDTO);
+        //productService.addProduct(productDTO);
+        productServiceRabbit.addProduct(productDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

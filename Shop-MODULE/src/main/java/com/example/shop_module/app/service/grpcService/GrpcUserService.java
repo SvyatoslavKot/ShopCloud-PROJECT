@@ -6,7 +6,7 @@ import com.example.shop_module.app.dto.UserDTO;
 import com.example.shop_module.app.exceptions.NoConnectedToGRpsServer;
 import com.example.shop_module.app.exceptions.ResponseMessageException;
 import com.example.shop_module.app.gRPC.mapper.UserGRpcMapper;
-import com.example.shop_module.app.service.UserService;
+import com.example.shop_module.app.service.abstraction.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

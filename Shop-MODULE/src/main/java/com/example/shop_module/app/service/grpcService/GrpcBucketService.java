@@ -1,6 +1,6 @@
 package com.example.shop_module.app.service.grpcService;
 
-import com.example.shop_module.app.service.BucketService;
+import com.example.shop_module.app.service.abstraction.BucketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
